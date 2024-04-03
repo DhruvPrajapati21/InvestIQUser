@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:user_invest_iq/Freeguildlines/Freeguildlines.dart';
+import 'package:user_invest_iq/Settings/Settings.dart';
 import 'package:user_invest_iq/IPO/IPO.dart';
 import 'package:user_invest_iq/IntraDay/Intraday.dart';
 import 'package:user_invest_iq/Longterm/Longterm.dart';
@@ -33,7 +33,6 @@ class _HomeState extends State<Home> {
 
       onWillPop: _onBackPressed,
       child: Scaffold(
-            backgroundColor: Color(hexColor('#F5F5F5')),
             appBar: AppBar(
               backgroundColor: Color(hexColor('#5F9EA0')),
               title: const Text(
@@ -44,9 +43,10 @@ class _HomeState extends State<Home> {
                     color: Colors.white),
               ),
               centerTitle: true,
+              iconTheme: IconThemeData(color: Colors.white),
             ),
-            drawer: Container(
-              width: MediaQuery.of(context).size.width * 0.65,
+            drawer: SizedBox(
+              width: 220,
               child: Drawer(
                 child: ListView(
                   padding: EdgeInsets.zero,
@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
                       leading: const Icon(Icons.access_time,size: 25,),
                       title: const Text('Intraday'),
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const Intraday()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.hourglass,size: 25,), // This will show an hourglass icon
                       title: const Text('Short Term'),
@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const Shortterm()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
                       leading: const Icon(Icons.timeline_sharp,size: 25,),
                       title: const Text('Long Term'),
@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const Longterm()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
                       leading: FaIcon(FontAwesomeIcons.chartLine,size: 25,),
                       title: const Text('IPO'),
@@ -113,23 +113,23 @@ class _HomeState extends State<Home> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const IPO()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
-                      leading: const Icon(Icons.description,size: 25,),
-                      title: const Text("Guidlines"),
+                      leading: const Icon(Icons.settings,size: 25,),
+                      title: const Text("Settings"),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Freeguildlines()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Settings1()));
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
-                      leading: const Icon(Icons.palette_outlined,size: 25,),
+                      leading: const Icon(Icons.sunny_snowing,size: 25,),
                       title: const Text("Theme"),
                       onTap: () {
                         Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,),
+                    const Divider(thickness: 2,),
                     ListTile(
                       leading: const Icon(Icons.exit_to_app,size: 25,),
                       title: const Text("Logout"),
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                         showLogoutConfirmationDialog(context);
                       },
                     ),
-                    const Divider(thickness: 0.0,color: Colors.black,)
+                    const Divider(thickness: 2,),
                   ],
                 ),
               ),
@@ -585,59 +585,8 @@ class HexagonWithCard extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 18,),
 
-            // const SizedBox(height: 20),
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) =>
-            //           const Freeguildlines()), // Navigate to IntraDayPage
-            //     );
-            //   },
-            //   child: Card(
-            //     elevation: 3,
-            //     margin: const EdgeInsets.symmetric(horizontal: 13),
-            //     color: Color(hexColor('#5F9EA0')),
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       child: Row(
-            //         children: [
-            //           ClipRRect(
-            //             borderRadius: BorderRadius.circular(8),
-            //             child: Container(
-            //               width: 100,
-            //               height: 100,
-            //               color: Color(hexColor(
-            //                   '#FFFAFA')), // Change this to desired image background color
-            //               child: Image.asset(
-            //                 "assets/images/s2.png", // Add your image path here
-            //                 fit: BoxFit.scaleDown,
-            //                 height: 10,
-            //                 width: 10,
-            //               ),
-            //             ),
-            //           ),
-            //           const SizedBox(width: 20),
-            //           const Expanded(
-            //             child: Center(
-            //               child: Text(
-            //                 'Free Guildlines',
-            //                 style: TextStyle(
-            //                   fontSize: 18,
-            //                   fontStyle: FontStyle.italic,
-            //                   fontWeight: FontWeight.bold,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

@@ -35,6 +35,7 @@ class _LongtermState extends State<Longterm> {
           ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: Icon(Icons.home, size: 25, color: Colors.white),

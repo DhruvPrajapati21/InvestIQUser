@@ -35,6 +35,7 @@ class _IPOState extends State<IPO> {
           ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: Icon(Icons.home, size: 25, color: Colors.white),
@@ -336,8 +337,7 @@ class _IPOState extends State<IPO> {
                                           ],
                                         ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.calendar_today,
@@ -350,12 +350,31 @@ class _IPOState extends State<IPO> {
                                             Text(
                                               'Closing Date: ',
                                               style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.green),
+                                                fontSize: 17,
+                                                color: Colors.green,
+                                              ),
                                             ),
                                             Text(
                                               ' ${IPOModel.closedate}',
                                               style: TextStyle(fontSize: 17),
+                                            ),
+                                            SizedBox(width: 10), // Add space between the texts
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  width: 63,
+                                                  height: 95,
+                                                  color: Colors.blue,
+                                                ),
+                                                Positioned(
+                                                  right: 5,
+                                                  top: 5,
+                                                  child: Text(
+                                                    'New',
+                                                    style: TextStyle(color: Colors.white),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

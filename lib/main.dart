@@ -5,7 +5,7 @@ import 'package:user_invest_iq/AuthView/Spalashscreen.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:user_invest_iq/AuthView/Signup.dart';
-import 'package:user_invest_iq/AuthView/enteredscreen.dart';
+import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
 import 'package:user_invest_iq/Provider.dart';
 
 void main() async {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Invest-IQ',
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).currentTheme,
-      home: Enteredscreen(),
+      home: Spalashscreen(),
     );
   }
 }

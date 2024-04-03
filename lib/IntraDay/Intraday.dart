@@ -35,6 +35,7 @@ class _IntradayState extends State<Intraday> {
           ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: Icon(Icons.home, size: 25, color: Colors.white),

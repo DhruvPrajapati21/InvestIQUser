@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
-import 'package:user_invest_iq/AuthView/enteredscreen.dart';
+import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
 User? user = FirebaseAuth.instance.currentUser;
 class Spalashscreen extends StatefulWidget {
   const Spalashscreen({super.key});
@@ -37,7 +37,6 @@ class _SpalashscreenState extends State<Spalashscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body:
       Center(
         child: Padding(
@@ -45,14 +44,14 @@ class _SpalashscreenState extends State<Spalashscreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/Logo.png"),
+              Image.asset("assets/images/Logo_Tranferent.png",),
               SizedBox(width: 20,height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(onPressed: (){
 
-                  }, child: Text("Welcome!",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,fontSize: 26,color: Colors.cyan),)),
+                  }, child: Text("Welcome To Invest-IQ!",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,fontSize: 26,color: Color(hexColor('#5F9EA0')),),)),
                   SizedBox(width: 10,height: 10,),
                 ],
               ),
@@ -62,7 +61,7 @@ class _SpalashscreenState extends State<Spalashscreen> {
                 children: [
                   TextButton(onPressed: (){
 
-                  }, child: Text("Let's Navigate the Markets Together for Profitable Trades!!",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 12,color: Colors.cyan),)),
+                  }, child: Text("Let's Navigate the Markets Together for Profitable Trades!!",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 12,color: Color(hexColor('#5F9EA0')),),)),
                 ],
               ),
               CircularProgressIndicator(),
@@ -74,3 +73,11 @@ class _SpalashscreenState extends State<Spalashscreen> {
     );
   }
 }
+
+int hexColor(String color) {
+  String newColor = '0xff' + color;
+  newColor = newColor.replaceAll('#', '');
+  int finalcolor = int.parse(newColor);
+  return finalcolor;
+}
+

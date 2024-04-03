@@ -15,7 +15,6 @@ class _EnteredscreenState extends State<Enteredscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Center(
@@ -27,7 +26,7 @@ class _EnteredscreenState extends State<Enteredscreen> {
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  color: Colors.cyan,
+                  color: Color(hexColor('#5F9EA0')),
                   fontSize: 25,
                 ),
               ),
@@ -35,19 +34,18 @@ class _EnteredscreenState extends State<Enteredscreen> {
                 "Changing the way Invest-IQ is Delivered",
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
-                  color: Colors.black,
                   fontSize: 13,
                 ),
               ),
               SizedBox(height: 20),
-              Image.asset("assets/images/Logo.png"),
+              Image.asset("assets/images/Logo_Tranferent.png"),
               SizedBox(height: 20),
               Text(
                 "Title",
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  color: Colors.cyan,
+                  color: Color(hexColor('#5F9EA0')),
                   fontSize: 25,
                 ),
               ),
@@ -59,7 +57,7 @@ class _EnteredscreenState extends State<Enteredscreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text("Project Great trading tips: diversify portfolio"),
+                    child: Text("Invest-IQ: diversify portfolio"),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -82,7 +80,7 @@ class _EnteredscreenState extends State<Enteredscreen> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.cyan,
+                      backgroundColor: Color(hexColor('#5F9EA0')),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -106,7 +104,7 @@ class _EnteredscreenState extends State<Enteredscreen> {
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset("assets/images/hj.png", height: MediaQuery.of(context).size.height * 0.2),
+                    child: Image.asset("assets/images/hj1.png", height: MediaQuery.of(context).size.height * 0.2),
                   ),
                 ],
               ),
@@ -116,4 +114,11 @@ class _EnteredscreenState extends State<Enteredscreen> {
       ),
     );
   }
+}
+
+int hexColor(String color) {
+  String newColor = '0xff' + color;
+  newColor = newColor.replaceAll('#', '');
+  int finalcolor = int.parse(newColor);
+  return finalcolor;
 }
