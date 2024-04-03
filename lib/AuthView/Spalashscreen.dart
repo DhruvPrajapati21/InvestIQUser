@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
-import 'package:user_invest_iq/AuthView/enteredscreen.dart';
+import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
 User? user = FirebaseAuth.instance.currentUser;
 class Spalashscreen extends StatefulWidget {
   const Spalashscreen({super.key});

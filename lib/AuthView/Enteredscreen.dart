@@ -59,7 +59,7 @@ class _EnteredscreenState extends State<Enteredscreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text("Project Great trading tips: diversify portfolio"),
+                    child: Text("Invest-IQ: diversify portfolio"),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),

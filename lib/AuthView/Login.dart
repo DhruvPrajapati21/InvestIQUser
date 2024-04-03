@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:user_invest_iq/AuthView/enteredscreen.dart';
+import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:user_invest_iq/AuthView/Signup.dart';
 
