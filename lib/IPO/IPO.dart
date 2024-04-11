@@ -27,7 +27,7 @@ class _IPOState extends State<IPO> {
       appBar: AppBar(
         backgroundColor: Color(0xFF5F9EA0),
         title: Text(
-          "IPO",
+          "IP",
           style: TextStyle(
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
