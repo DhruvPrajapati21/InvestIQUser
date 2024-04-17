@@ -21,6 +21,16 @@ class _IntradayState extends State<Intraday> {
     searchController = TextEditingController();
   }
 
+  Future<String?> getImageUrlFromFirebase(String documentId) async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
+      return documentSnapshot.get('imageUrl');
+    } catch (e) {
+      print('Error fetching image URL: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +78,7 @@ class _IntradayState extends State<Intraday> {
                             child: TextFormField(
                               controller: searchController,
                               onChanged: (value) {
-                                setState(() {}); // Trigger rebuild on text change
+                                setState(() {});
                               },
                               style: const TextStyle(fontSize: 16),
                               decoration: const InputDecoration(
@@ -176,13 +186,10 @@ class _IntradayState extends State<Intraday> {
                             itemCount: stocks.length,
                             itemBuilder: (BuildContext context, int index) {
                               var IntradayModel = stocks[index];
-                              Color slColor =
-                                  Colors.black; // Default color for SL
+                              Color slColor = Colors.black;
                               Color remarkColor = Colors.black;
-                              Color statusColor =
-                                  Colors.black; // Default color for Remark
+                              Color statusColor = Colors.black;
 
-                              // Setting colors based on Status
                               if (IntradayModel.status == 'Active' ||
                                   IntradayModel.status == 'Achieved') {
                                 slColor = Colors.green;
@@ -194,7 +201,8 @@ class _IntradayState extends State<Intraday> {
                                 statusColor = Colors.red;
                               }
                               return Card(
-                                surfaceTintColor: Color(hexColor('#FFFFFF')),
+                                surfaceTintColor:
+                                Color(hexColor('#FFFFFF')),
                                 shape: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -202,6 +210,51 @@ class _IntradayState extends State<Intraday> {
                                 margin: EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Card(
+                                          elevation: 8.0,
+                                          shadowColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(60.0),
+                                            side: BorderSide(
+                                                color: Colors.black,
+                                                width: 1.0),
+                                          ),
+                                          margin: EdgeInsets.all(10.0),
+                                          child: FutureBuilder<String?>(
+                                            future: getImageUrlFromFirebase(
+                                                snapshot.data!.docs[index].id),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return CircularProgressIndicator(color: Colors.white,);
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    'Error: ${snapshot.error}');
+                                              } else {
+                                                String imageUrl =
+                                                    snapshot.data ?? '';
+                                                if (imageUrl.isEmpty) {
+                                                  return Text(
+                                                      'No image URL available');
+                                                }
+                                                return CircleAvatar(
+                                                  radius: 60,
+                                                  backgroundColor:
+                                                  Colors.transparent,
+                                                  backgroundImage:
+                                                  NetworkImage(imageUrl),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     ListTile(
                                       subtitle: Column(
                                         mainAxisAlignment:
@@ -262,7 +315,6 @@ class _IntradayState extends State<Intraday> {
                                                       fontSize: 17)),
                                               Icon(Icons.currency_rupee,
                                                   size: 17, color: slColor),
-                                              // SL icon
                                               Text('${IntradayModel.sl}',
                                                   style: TextStyle(
                                                       fontSize: 17,

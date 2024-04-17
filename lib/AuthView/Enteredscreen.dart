@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:user_invest_iq/Home.dart';
 
-import 'Spalashscreen.dart';
+import 'Splashscreen.dart';
 
 class Enteredscreen extends StatefulWidget {
   const Enteredscreen({super.key});

@@ -21,6 +21,16 @@ class _ShorttermState extends State<Shortterm> {
     searchController = TextEditingController();
   }
 
+  Future<String?> getImageUrlFromFirebase(String documentId) async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
+      return documentSnapshot.get('imageUrl');
+    } catch (e) {
+      print('Error fetching image URL: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,7 +204,8 @@ class _ShorttermState extends State<Shortterm> {
                                 statusColor = Colors.red;
                               }
                               return Card(
-                                surfaceTintColor: Color(hexColor('#FFFFFF')),
+                                surfaceTintColor:
+                                Color(hexColor('#FFFFFF')),
                                 shape: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -202,6 +213,51 @@ class _ShorttermState extends State<Shortterm> {
                                 margin: EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Card(
+                                          elevation: 8.0,
+                                          shadowColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(60.0),
+                                            side: BorderSide(
+                                                color: Colors.black,
+                                                width: 1.0),
+                                          ),
+                                          margin: EdgeInsets.all(10.0),
+                                          child: FutureBuilder<String?>(
+                                            future: getImageUrlFromFirebase(
+                                                snapshot.data!.docs[index].id),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return CircularProgressIndicator(color: Colors.white,);
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    'Error: ${snapshot.error}');
+                                              } else {
+                                                String imageUrl =
+                                                    snapshot.data ?? '';
+                                                if (imageUrl.isEmpty) {
+                                                  return Text(
+                                                      'No image URL available');
+                                                }
+                                                return CircleAvatar(
+                                                  radius: 60,
+                                                  backgroundColor:
+                                                  Colors.transparent,
+                                                  backgroundImage:
+                                                  NetworkImage(imageUrl),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     ListTile(
                                       subtitle: Column(
                                         mainAxisAlignment:

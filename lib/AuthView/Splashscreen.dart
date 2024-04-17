@@ -89,14 +89,14 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
 
-class Spalashscreen extends StatefulWidget {
-  const Spalashscreen({Key? key});
+class Splashscreen extends StatefulWidget {
+  const Splashscreen({Key? key});
 
   @override
-  State<Spalashscreen> createState() => _SpalashscreenState();
+  State<Splashscreen> createState() => _SplashscreenState();
 }
 
-class _SpalashscreenState extends State<Spalashscreen> {
+class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
     super.initState();
@@ -171,7 +171,7 @@ class _SpalashscreenState extends State<Spalashscreen> {
                     ),
                   ],
                 ),
-                CircularProgressIndicator(),
+                CircularProgressIndicator(color: Colors.white,),
                 SizedBox(width: 50, height: 50),
               ],
             ),
