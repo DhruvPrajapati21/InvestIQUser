@@ -186,13 +186,16 @@ class HexagonWithCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipPath(
-              clipper: HexagonClipper(),
-              child: Container(
-                child: Image.asset("assets/images/zx.png"),
-                color: Color(hexColor('#B0C4DE')),
-                width: 160,
-                height: 160,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ClipPath(
+                clipper: HexagonClipper(),
+                child: Container(
+                  child: Image.asset("assets/images/zx.png"),
+                  color: Color(hexColor('#B0C4DE')),
+                  width: 160,
+                  height: 160,
+                ),
               ),
             ),
             const SizedBox(height: 20),
