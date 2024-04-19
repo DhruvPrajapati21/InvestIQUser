@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
+import 'package:user_invest_iq/AuthView/Forgetpassword.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:user_invest_iq/AuthView/Signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,15 +53,17 @@ class _LoginState extends State<Login> {
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter email";
-                    } else if (!value.contains("@") || !value.contains(".")) {
+                      return "Please enter your email";
+                    } else if (!value.contains("@") ||
+                        !value.contains(".com") ||
+                        !value.contains("gmail")) {
                       return "Please enter valid email";
                     }
                     return null;
                   },
                   controller: _emailController,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Icon(Icons.email),
                     prefixIconColor: Color(hexColor('#5F9EA0')),
                     labelText: 'Enter Your Email',
                     labelStyle: TextStyle(color: Color(hexColor('#5F9EA0'))),
@@ -186,6 +189,20 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Forgetpassword()),
+                      );
+                    },
+                    child: Text("Forget Password?",style: TextStyle(color: Color(hexColor('#5F9EA0')), ),),
+                  ),
+                ],
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Need an account?"),
@@ -196,7 +213,7 @@ class _LoginState extends State<Login> {
                         MaterialPageRoute(builder: (context) => Signup()),
                       );
                     },
-                    child: Text("Join us >>"),
+                    child: Text("Join us >>",style: TextStyle(color: Color(hexColor('#5F9EA0')), ),),
                   ),
                 ],
               )

@@ -81,7 +81,9 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
-                        } else if (!value.contains("@") || !value.contains(".")) {
+                        } else if (!value.contains("@") ||
+                            !value.contains(".com") ||
+                            !value.contains("gmail")) {
                           return "Please enter valid email";
                         }
                         return null;
@@ -137,7 +139,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                       controller: cpass,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter Password";
+                          return "Please enter confirm Password";
                         }
                         return null;
                       },
@@ -267,7 +269,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => Login()));
                           },
-                          child: Text("Join us Now >>"))
+                          child: Text("Join us Now >>",style: TextStyle(color: Color(hexColor('#5F9EA0')), ),),)
                     ],
                   )
                 ],

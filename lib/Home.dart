@@ -1,157 +1,208 @@
-import 'package:provider/provider.dart';
-import 'package:user_invest_iq/Settings/Settings.dart';
-import 'package:user_invest_iq/IPO/IPO.dart';
+import 'package:flutter/material.dart';
+import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:user_invest_iq/IntraDay/Intraday.dart';
 import 'package:user_invest_iq/Longterm/Longterm.dart';
 import 'package:user_invest_iq/Shortterm/Shortterm.dart';
-import 'Provider.dart';
-import 'package:flutter/material.dart';
-import 'package:user_invest_iq/AuthView/Login.dart';
+import 'package:user_invest_iq/IPO/IPO.dart';
+import 'package:user_invest_iq/Settings/Settings.dart';
+import 'package:user_invest_iq/Provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future<bool> _onBackPressed() async {
-    bool shouldExit =
-        await ExitConfirmationDialog.showExitDialog(context) ?? false;
-    return shouldExit;
+    if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+      // If drawer is open, close it
+      Navigator.of(context).pop();
+      return false; // Do not exit the app
+    } else {
+      // Navigate to the home page
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+      return false; // Do not exit the app
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
-
       onWillPop: _onBackPressed,
       child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Color(hexColor('#5F9EA0')),
-              title: const Text(
-                "Home",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white),
-              ),
-              centerTitle: true,
-              iconTheme: IconThemeData(color: Colors.white),
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF5F9EA0),
+          title: const Text(
+            "Home",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
             ),
-            drawer: SizedBox(
-              width: 220,
-              child: Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    const DrawerHeader(
-                      decoration: BoxDecoration(color:Color(0xFF5F9EA0)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 40,
-                            backgroundImage: AssetImage('assets/images/Logo.png'),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Profile",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.home_outlined,size: 27,),
-                      title: const Text('Home'),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(Icons.access_time,size: 25,),
-                      title: const Text('Intraday'),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Intraday()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(FontAwesomeIcons.hourglass,size: 25,), // This will show an hourglass icon
-                      title: const Text('Short Term'),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Shortterm()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(Icons.timeline_sharp,size: 25,),
-                      title: const Text('Long Term'),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Longterm()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: FaIcon(FontAwesomeIcons.chartLine,size: 25,),
-                      title: const Text('IPO'),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const IPO()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(Icons.settings,size: 25,),
-                      title: const Text("Settings"),
-                      onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Settings1()));
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(Icons.sunny_snowing,size: 25,),
-                      title: const Text("Theme"),
-                      onTap: () {
-                        Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                    ListTile(
-                      leading: const Icon(Icons.exit_to_app,size: 25,),
-                      title: const Text("Logout"),
-                      onTap: () {
-                        showLogoutConfirmationDialog(context);
-                      },
-                    ),
-                    const Divider(thickness: 2,),
-                  ],
-                ),
-              ),
-            ),
-            body: HexagonWithCard(),
           ),
+          centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
+          leading: IconButton(
+            icon: Icon(Icons.menu, color: Colors.white), // Menu icon
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+          ),
+        ),
+        drawer: SizedBox(
+          width: 220,
+          child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                const DrawerHeader(
+                  decoration: BoxDecoration(color: Color(0xFF5F9EA0)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 40,
+                        backgroundImage:
+                        AssetImage('assets/images/Logo.png'),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home_outlined, size: 27),
+                  title: const Text('Home'),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(Icons.access_time, size: 25),
+                  title: const Text('Intraday'),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Intraday(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(FontAwesomeIcons.hourglass, size: 25),
+                  title: const Text('Short Term'),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Shortterm(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(Icons.timeline_sharp, size: 25),
+                  title: const Text('Long Term'),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Longterm(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: FaIcon(FontAwesomeIcons.chartLine, size: 25),
+                  title: const Text('IPO'),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const IPO(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(Icons.settings, size: 25),
+                  title: const Text("Settings"),
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Settings1(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(Icons.sunny_snowing, size: 25),
+                  title: const Text("Theme"),
+                  onTap: () {
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme();
+                    Navigator.pop(context); // Close the drawer
+                  },
+                ),
+                const Divider(thickness: 2),
+                ListTile(
+                  leading: const Icon(Icons.exit_to_app, size: 25),
+                  title: const Text("Logout"),
+                  onTap: () {
+                    showLogoutConfirmationDialog(context);
+                  },
+                ),
+                const Divider(thickness: 2),
+              ],
+            ),
+          ),
+        ),
+        body: HexagonWithCard(),
+      ),
     );
   }
+
   void showLogoutConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Logout Invest-IQ?",style: TextStyle(fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),),
+          title: const Text(
+            "Logout Invest-IQ?",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+          ),
           content: const Text("Are you sure you want to logout?"),
           actions: <Widget>[
             TextButton(
@@ -178,6 +229,7 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
 class HexagonWithCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -250,11 +302,13 @@ class HexagonWithCard extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('Stocks')
+                      stream: FirebaseFirestore.instance
+                          .collection('Stocks')
                           .where('category', isEqualTo: 'IntraDay')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
@@ -277,12 +331,14 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward, color: Colors.white),
+                                icon: Icon(Icons.arrow_forward,
+                                    color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Intraday(),
+                                      builder: (context) =>
+                                      const Intraday(),
                                     ),
                                   );
                                 },
@@ -348,11 +404,13 @@ class HexagonWithCard extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('Stocks')
+                      stream: FirebaseFirestore.instance
+                          .collection('Stocks')
                           .where('category', isEqualTo: 'Short Term')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
@@ -375,12 +433,14 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward, color: Colors.white),
+                                icon: Icon(Icons.arrow_forward,
+                                    color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Shortterm(),
+                                      builder: (context) =>
+                                      const Shortterm(),
                                     ),
                                   );
                                 },
@@ -446,11 +506,13 @@ class HexagonWithCard extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('Stocks')
+                      stream: FirebaseFirestore.instance
+                          .collection('Stocks')
                           .where('category', isEqualTo: 'Long Term')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
@@ -473,12 +535,14 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward, color: Colors.white),
+                                icon: Icon(Icons.arrow_forward,
+                                    color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Longterm(),
+                                      builder: (context) =>
+                                      const Longterm(),
                                     ),
                                   );
                                 },
@@ -544,9 +608,12 @@ class HexagonWithCard extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('IPO').snapshots(),
+                      stream: FirebaseFirestore.instance
+                          .collection('IPO')
+                          .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
@@ -569,7 +636,8 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward, color: Colors.white),
+                                icon: Icon(Icons.arrow_forward,
+                                    color: Colors.white),
                                 onPressed: () {
                                   Navigator.pushReplacement(
                                     context,
@@ -588,8 +656,9 @@ class HexagonWithCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 18,),
-
+            SizedBox(
+              height: 18,
+            ),
           ],
         ),
       ),
@@ -623,6 +692,7 @@ int hexColor(String color) {
   int finalcolor = int.parse(newColor);
   return finalcolor;
 }
+
 class ExitConfirmationDialog {
   static Future<bool?> showExitDialog(BuildContext context) async {
     return showDialog<bool>(
