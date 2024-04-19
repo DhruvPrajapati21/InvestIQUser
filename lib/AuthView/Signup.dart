@@ -103,8 +103,12 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                     child: TextFormField(
                       controller: pass,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter Password";
+                        if (value == null || value.trim().isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password must be at least 8 characters long";
+                        } else if (!RegExp(r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+={};:<>|./?,-]).{8,}$').hasMatch(value)) {
+                          return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
                         }
                         return null;
                       },

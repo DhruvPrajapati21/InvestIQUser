@@ -12,13 +12,22 @@ class Forgetpassword extends StatefulWidget {
 class _ForgetpasswordState extends State<Forgetpassword> {
   bool passwordVisible = false;
   bool con_passwordVisible = true;
-  var password = false, con_password = true;
+  var password = false,
+      con_password = true;
   bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    // Clear text controllers when the screen is initialized
+    _emailController.clear();
+    _newPasswordController.clear();
+    _confirmPasswordController.clear();
+  }
 
   void resetPassword() async {
     String email = _emailController.text.trim();
@@ -57,7 +66,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
         // Update password in Firebase Authentication
         await FirebaseAuth.instance.currentUser?.updatePassword(newPassword);
 
+        // Clear text fields
+        _emailController.clear();
+        _newPasswordController.clear();
+        _confirmPasswordController.clear();
+
         // Show success message for password update
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Password updated successfully!"),
@@ -81,12 +96,32 @@ class _ForgetpasswordState extends State<Forgetpassword> {
       print("Error: $e");
     }
   }
+  bool _isStrongPassword(String value) {
+    // Check if the password contains '@'
+    if (!value.contains('@')) {
+      return false;
+    }
+
+    // Check if the password contains at least one uppercase letter
+    if (value.toUpperCase() == value) {
+      return false;
+    }
+
+    // Check if the password contains at least one lowercase letter
+    if (value.toLowerCase() == value) {
+      return false;
+    }
+
+    return true;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(hexColor('#5F9EA0')),
+        backgroundColor: Colors.cyan,
         title: Text(
           "Forget Password",
           style: TextStyle(
@@ -123,7 +158,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                           return "Please enter your email";
                         } else if (!value.contains("@") ||
                             !value.contains(".com") ||
-                        !value.contains("gmail")) {
+                            !value.contains("gmail")) {
                           return "Please enter valid email";
                         }
                         return null;
@@ -131,9 +166,9 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       decoration: InputDecoration(
                         labelText: "Enter Your Email",
                         labelStyle:
-                            TextStyle(color: Color(hexColor('#5F9EA0'))),
+                        TextStyle(color: Colors.cyan),
                         prefixIcon: Icon(Icons.email),
-                        prefixIconColor: Color(hexColor('#5F9EA0')),
+                        prefixIconColor: Colors.cyan,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -145,22 +180,25 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                     child: TextFormField(
                       controller: _newPasswordController,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter Password";
+                        if (value == null || value.trim().isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password must be at least 8 characters long";
+                        } else if (!RegExp(r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+={};:<>|./?,-]).{8,}$').hasMatch(value)) {
+                          return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
                         }
                         return null;
                       },
                       obscureText: !passwordVisible,
                       decoration: InputDecoration(
                         labelText: "Enter Your New Password",
-                        labelStyle:
-                            TextStyle(color: Color(hexColor('#5F9EA0'))),
+                        labelStyle: TextStyle(color: Colors.cyan),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        prefixIconColor: Color(hexColor('#5F9EA0')),
-                        suffixIconColor: Color(hexColor('#5F9EA0')),
+                        prefixIconColor: Colors.cyan,
+                        suffixIconColor: Colors.cyan,
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -190,13 +228,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       decoration: InputDecoration(
                         labelText: "Enter Your Confirm Password",
                         labelStyle:
-                            TextStyle(color: Color(hexColor('#5F9EA0'))),
+                        TextStyle(color: Colors.cyan),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        prefixIconColor: Color(hexColor('#5F9EA0')),
-                        suffixIconColor: Color(hexColor('#5F9EA0')),
+                        prefixIconColor: Colors.cyan,
+                        suffixIconColor: Colors.cyan,
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -233,7 +271,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(hexColor('#5F9EA0')),
+                          backgroundColor: Colors.cyan,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -250,11 +288,5 @@ class _ForgetpasswordState extends State<Forgetpassword> {
         ),
       ),
     );
-  }
-  int hexColor(String color) {
-    String newColor = '0xff' + color;
-    newColor = newColor.replaceAll('#', '');
-    int finalcolor = int.parse(newColor);
-    return finalcolor;
   }
 }
