@@ -14,6 +14,7 @@ class _LongtermState extends State<Longterm> {
   List<String> ipo = ['All', 'Achieved', 'Active', 'SL Hit'];
   String? SelectedFilter = 'All';
   late TextEditingController searchController;
+  Map<String, String?> imageCache = {};
 
   @override
   void initState() {
@@ -22,9 +23,18 @@ class _LongtermState extends State<Longterm> {
   }
 
   Future<String?> getImageUrlFromFirebase(String documentId) async {
+    // Check if image URL is already cached
+    if (imageCache.containsKey(documentId)) {
+      return imageCache[documentId];
+    }
+
     try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
-      return documentSnapshot.get('imageUrl');
+      DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
+      String? imageUrl = documentSnapshot.get('imageUrl');
+      // Cache the image URL
+      imageCache[documentId] = imageUrl;
+      return imageUrl;
     } catch (e) {
       print('Error fetching image URL: $e');
       return null;
@@ -78,6 +88,7 @@ class _LongtermState extends State<Longterm> {
                             child: TextFormField(
                               controller: searchController,
                               onChanged: (value) {
+                                imageCache.clear();
                                 setState(() {}); // Trigger rebuild on text change
                               },
                               style: const TextStyle(fontSize: 16),
@@ -230,27 +241,36 @@ class _LongtermState extends State<Longterm> {
                                           margin: EdgeInsets.all(10.0),
                                           child: FutureBuilder<String?>(
                                             future: getImageUrlFromFirebase(
-                                                snapshot.data!.docs[index].id),
+                                                LongTermModel.id as String), // Use stock ID here
                                             builder: (context, snapshot) {
                                               if (snapshot.connectionState ==
                                                   ConnectionState.waiting) {
-                                                return CircularProgressIndicator(color: Colors.white,);
+                                                return CircularProgressIndicator(
+                                                    color: Colors.white);
                                               } else if (snapshot.hasError) {
                                                 return Text(
                                                     'Error: ${snapshot.error}');
                                               } else {
                                                 String imageUrl =
                                                     snapshot.data ?? '';
-                                                if (imageUrl.isEmpty) {
-                                                  return Text(
-                                                      'No image URL available');
+                                                // Check if the image URL is already cached
+                                                if (imageUrl.isEmpty &&
+                                                    imageCache.containsKey(
+                                                        LongTermModel.id)) {
+                                                  imageUrl = imageCache[LongTermModel.id]!;
                                                 }
-                                                return CircleAvatar(
-                                                  radius: 60,
-                                                  backgroundColor:
-                                                  Colors.transparent,
-                                                  backgroundImage:
-                                                  NetworkImage(imageUrl),
+                                                if (imageUrl.isEmpty) {
+                                                  // Use a default image URL if no image URL is available
+                                                  imageUrl =
+                                                  'https://example.com/default_image.jpg';
+                                                }
+                                                return ClipOval(
+                                                  child: Image.network(
+                                                    imageUrl,
+                                                    width: 110, // Adjust the size as needed
+                                                    height: 110, // Adjust the size as needed
+                                                    fit: BoxFit.fill, // Set BoxFit.fill
+                                                  ),
                                                 );
                                               }
                                             },
@@ -337,14 +357,17 @@ class _LongtermState extends State<Longterm> {
                                               Spacer(
                                                 flex: 15,
                                               ),
-                                              Text('Remarks: ',
-                                                  style: TextStyle(
-                                                      fontSize: 17)),
                                               Text(
-                                                '${LongTermModel.remark}',
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: remarkColor),
+                                                'Remarks: ',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Expanded(
+                                                flex: 30, // Adjust flex value as needed
+                                                child: Text(
+                                                  '${LongTermModel.remark}',
+                                                  style: TextStyle(fontSize: 17, color: remarkColor),
+                                                  softWrap: true, // Enable text wrapping
+                                                ),
                                               ),
                                             ],
                                           ),

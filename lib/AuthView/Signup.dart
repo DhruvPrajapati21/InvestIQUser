@@ -205,7 +205,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Enteredscreen()));
+                                        builder: (context) => Login()));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(

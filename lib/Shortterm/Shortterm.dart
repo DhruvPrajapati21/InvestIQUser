@@ -14,6 +14,7 @@ class _ShorttermState extends State<Shortterm> {
   List<String> ipo = ['All', 'Achieved', 'Active', 'SL Hit'];
   String? selectedFilter = 'All';
   late TextEditingController searchController;
+  Map<String, String?> imageCache = {};
 
   @override
   void initState() {
@@ -22,9 +23,18 @@ class _ShorttermState extends State<Shortterm> {
   }
 
   Future<String?> getImageUrlFromFirebase(String documentId) async {
+    // Check if image URL is already cached
+    if (imageCache.containsKey(documentId)) {
+      return imageCache[documentId];
+    }
+
     try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
-      return documentSnapshot.get('imageUrl');
+      DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('Stocks').doc(documentId).get();
+      String? imageUrl = documentSnapshot.get('imageUrl');
+      // Cache the image URL
+      imageCache[documentId] = imageUrl;
+      return imageUrl;
     } catch (e) {
       print('Error fetching image URL: $e');
       return null;
@@ -58,7 +68,14 @@ class _ShorttermState extends State<Shortterm> {
           ),
         ],
       ),
-      body: OrientationBuilder(
+    body: Container(
+    decoration: BoxDecoration(
+    image: DecorationImage(
+    image: NetworkImage('https://example.com/background_image.jpg'), // Replace with your image URL
+    fit: BoxFit.fill,
+    ),
+    ),
+    child: OrientationBuilder(
         builder: (context, orientation) {
           return SingleChildScrollView(
             child: Center(
@@ -78,6 +95,7 @@ class _ShorttermState extends State<Shortterm> {
                             child: TextFormField(
                               controller: searchController,
                               onChanged: (value) {
+                                imageCache.clear();
                                 setState(() {}); // Trigger rebuild on text change
                               },
                               style: const TextStyle(fontSize: 16),
@@ -230,27 +248,37 @@ class _ShorttermState extends State<Shortterm> {
                                           margin: EdgeInsets.all(10.0),
                                           child: FutureBuilder<String?>(
                                             future: getImageUrlFromFirebase(
-                                                snapshot.data!.docs[index].id),
+                                                shortTermModel.id as String), // Use stock ID here
                                             builder: (context, snapshot) {
                                               if (snapshot.connectionState ==
                                                   ConnectionState.waiting) {
-                                                return CircularProgressIndicator(color: Colors.white,);
+                                                return CircularProgressIndicator(
+                                                    color: Colors.white);
                                               } else if (snapshot.hasError) {
                                                 return Text(
                                                     'Error: ${snapshot.error}');
                                               } else {
                                                 String imageUrl =
                                                     snapshot.data ?? '';
-                                                if (imageUrl.isEmpty) {
-                                                  return Text(
-                                                      'No image URL available');
+                                                // Check if the image URL is already cached
+                                                if (imageUrl.isEmpty &&
+                                                    imageCache.containsKey(
+                                                        shortTermModel.id)) {
+                                                  imageUrl = imageCache[
+                                                  shortTermModel.id]!;
                                                 }
-                                                return CircleAvatar(
-                                                  radius: 60,
-                                                  backgroundColor:
-                                                  Colors.transparent,
-                                                  backgroundImage:
-                                                  NetworkImage(imageUrl),
+                                                if (imageUrl.isEmpty) {
+                                                  // Use a default image URL if no image URL is available
+                                                  imageUrl =
+                                                  'https://example.com/default_image.jpg';
+                                                }
+                                                return ClipOval(
+                                                  child: Image.network(
+                                                    imageUrl,
+                                                    width: 110, // Adjust the size as needed
+                                                    height: 110, // Adjust the size as needed
+                                                    fit: BoxFit.fill, // Set BoxFit.fill
+                                                  ),
                                                 );
                                               }
                                             },
@@ -337,14 +365,17 @@ class _ShorttermState extends State<Shortterm> {
                                               Spacer(
                                                 flex: 15,
                                               ),
-                                              Text('Remarks: ',
-                                                  style: TextStyle(
-                                                      fontSize: 17)),
                                               Text(
-                                                '${shortTermModel.remark}',
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: remarkColor),
+                                                'Remarks: ',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Expanded(
+                                                flex: 30, // Adjust flex value as needed
+                                                child: Text(
+                                                  '${shortTermModel.remark}',
+                                                  style: TextStyle(fontSize: 17, color: remarkColor),
+                                                  softWrap: true, // Enable text wrapping
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -366,6 +397,7 @@ class _ShorttermState extends State<Shortterm> {
           );
         },
       ),
+    ),
     );
   }
 }

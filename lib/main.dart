@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Invest-IQ',
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).currentTheme,
-      home: Splashscreen(),
+      home: Splashscreen (),
     );
   }
 }

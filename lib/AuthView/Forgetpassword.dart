@@ -121,7 +121,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Color(hexColor('#5F9EA0')),
         title: Text(
           "Forget Password",
           style: TextStyle(
@@ -166,9 +166,9 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       decoration: InputDecoration(
                         labelText: "Enter Your Email",
                         labelStyle:
-                        TextStyle(color: Colors.cyan),
+                        TextStyle(color: Color(hexColor('#5F9EA0')),),
                         prefixIcon: Icon(Icons.email),
-                        prefixIconColor: Colors.cyan,
+                        prefixIconColor:Color(hexColor('#5F9EA0')),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -192,13 +192,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       obscureText: !passwordVisible,
                       decoration: InputDecoration(
                         labelText: "Enter Your New Password",
-                        labelStyle: TextStyle(color: Colors.cyan),
+                        labelStyle: TextStyle(color:Color(hexColor('#5F9EA0')),),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        prefixIconColor: Colors.cyan,
-                        suffixIconColor: Colors.cyan,
+                        prefixIconColor:Color(hexColor('#5F9EA0')),
+                        suffixIconColor:Color(hexColor('#5F9EA0')),
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -228,13 +228,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       decoration: InputDecoration(
                         labelText: "Enter Your Confirm Password",
                         labelStyle:
-                        TextStyle(color: Colors.cyan),
+                        TextStyle(color: Color(hexColor('#5F9EA0')),),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        prefixIconColor: Colors.cyan,
-                        suffixIconColor: Colors.cyan,
+                        prefixIconColor:Color(hexColor('#5F9EA0')),
+                        suffixIconColor:Color(hexColor('#5F9EA0')),
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -271,7 +271,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.cyan,
+                          backgroundColor: Color(hexColor('#5F9EA0')),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -290,3 +290,10 @@ class _ForgetpasswordState extends State<Forgetpassword> {
     );
   }
 }
+int hexColor(String color) {
+  String newColor = '0xff' + color;
+  newColor = newColor.replaceAll('#', '');
+  int finalcolor = int.parse(newColor);
+  return finalcolor;
+}
+

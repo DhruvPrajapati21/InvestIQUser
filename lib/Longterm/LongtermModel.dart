@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class LongTermModel {// Add the id field
+  final String id;
   final String status;
   final String stockName;
   final String cmp;
@@ -12,10 +13,11 @@ class LongTermModel {// Add the id field
 
 
   LongTermModel(
-      {required this.status ,required this.stockName,required this.cmp,required this.target,required this.sl,required this.remark,required this.date,});
+      {required this.id,required this.status ,required this.stockName,required this.cmp,required this.target,required this.sl,required this.remark,required this.date,});
 
   factory LongTermModel.fromSnapshot(DocumentSnapshot snapshot) {
     return LongTermModel(// Assign the document ID to the id field
+      id: snapshot.id,
       status: snapshot['status'],
       stockName: snapshot['stockName'],
       cmp: snapshot['cmp'],

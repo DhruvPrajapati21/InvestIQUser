@@ -26,9 +26,9 @@ class _HomeState extends State<Home> {
       Navigator.of(context).pop();
       return false; // Do not exit the app
     } else {
-      // Navigate to the home page
-      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-      return false; // Do not exit the app
+      // Show exit confirmation dialog
+      bool? exitConfirmed = await ExitConfirmationDialog.showExitDialog(context);
+      return exitConfirmed ?? false;
     }
   }
 
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.home_outlined, size: 27),
                   title: const Text('Home'),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                   },
                 ),
                 const Divider(thickness: 2),
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.access_time, size: 25),
                   title: const Text('Intraday'),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    // Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(FontAwesomeIcons.hourglass, size: 25),
                   title: const Text('Short Term'),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    // Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -128,7 +128,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.timeline_sharp, size: 25),
                   title: const Text('Long Term'),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    // Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -142,7 +142,7 @@ class _HomeState extends State<Home> {
                   leading: FaIcon(FontAwesomeIcons.chartLine, size: 25),
                   title: const Text('IPO'),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    // Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -156,7 +156,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.settings, size: 25),
                   title: const Text("Settings"),
                   onTap: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    // Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

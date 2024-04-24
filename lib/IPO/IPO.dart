@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:user_invest_iq/IPO/IPOModel.dart';
-import 'package:user_invest_iq/IntraDay/IntrdayModel.dart';
 
 class IPO extends StatefulWidget {
   const IPO({Key? key}) : super(key: key);
@@ -14,12 +14,33 @@ class IPO extends StatefulWidget {
 class _IPOState extends State<IPO> {
   late TextEditingController searchController;
   List<bool> isSelected = [true, false, false];
+  Map<String, String?> imageCache = {}; // Stores image URLs for each stock ID
 
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
   }
+
+  Future<String?> getImageUrlFromFirebase(String documentId) async {
+    // Check if image URL is already cached
+    if (imageCache.containsKey(documentId)) {
+      return imageCache[documentId];
+    }
+
+    try {
+      DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('IPO').doc(documentId).get();
+      String? imageUrl = documentSnapshot.get('imageUrl');
+      // Cache the image URL
+      imageCache[documentId] = imageUrl;
+      return imageUrl;
+    } catch (e) {
+      print('Error fetching image URL: $e');
+      return null;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +78,13 @@ class _IPOState extends State<IPO> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: SizedBox(
                           height: 50,
                           child: TextFormField(
                             controller: searchController,
                             onChanged: (value) {
+                              imageCache.clear();
                               setState(() {}); // Trigger rebuild on text change
                             },
                             style: const TextStyle(fontSize: 16),
@@ -85,9 +106,7 @@ class _IPOState extends State<IPO> {
                     isSelected: isSelected,
                     onPressed: (int index) {
                       setState(() {
-                        for (int buttonIndex = 0;
-                        buttonIndex < isSelected.length;
-                        buttonIndex++) {
+                        for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
                           isSelected[buttonIndex] = buttonIndex == index;
                         }
                       });
@@ -130,14 +149,10 @@ class _IPOState extends State<IPO> {
                         ],
                       ),
                     ],
-                    // color: Colors.black, // Color for unselected text
-                    selectedColor: Colors.white, // Color for selected text
-                    fillColor:
-                    Color(hexColor('#5F9EA0')), // Color for selected chip
-                    selectedBorderColor: Color(
-                        hexColor('#5F9EA0')), // Border color for selected chip
-                    borderRadius:
-                    BorderRadius.circular(5), // Border radius for chips
+                    selectedColor: Colors.white,
+                    fillColor: Color(hexColor('#5F9EA0')),
+                    selectedBorderColor: Color(hexColor('#5F9EA0')),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 SizedBox(
@@ -171,9 +186,7 @@ class _IPOState extends State<IPO> {
                     }
                     final data = snapshot.data!;
 
-                    List<IPOModel> stocks = snapshot.data!.docs
-                        .map((doc) => IPOModel.fromSnapshot(doc))
-                        .toList();
+                    List<IPOModel> stocks = snapshot.data!.docs.map((doc) => IPOModel.fromSnapshot(doc)).toList();
                     if (searchController.text.isNotEmpty) {
                       stocks = stocks.where((stock) {
                         final stockName = stock.stockName.toLowerCase();
@@ -182,21 +195,11 @@ class _IPOState extends State<IPO> {
                       }).toList();
                     }
                     if (isSelected[1]) {
-                      // If "Current" is selected
                       stocks = stocks.where((stock) => stock.status == 'Current').toList();
                     } else if (isSelected[2]) {
-                      // If "Upcoming" is selected
                       stocks = stocks.where((stock) => stock.status == 'Upcoming').toList();
                     }
 
-                    // Apply search filter
-                    if (searchController.text.isNotEmpty) {
-                      stocks = stocks.where((stock) {
-                        final stockName = stock.stockName.toLowerCase();
-                        final searchQuery = searchController.text.toLowerCase();
-                        return stockName.contains(searchQuery);
-                      }).toList();
-                    }
                     if (stocks.isEmpty) {
                       return Center(child: Text('No Data Found!'));
                     }
@@ -206,161 +209,195 @@ class _IPOState extends State<IPO> {
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: stocks.length,
                           itemBuilder: (BuildContext context, int index) {
-                            if (index >= 0 && index < stocks.length) {
-                              var IPOModel = stocks[index];
-                              return Card(
-                                surfaceTintColor: Color(hexColor('#FFFFFF')),
-                                shape: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                elevation: 16.0,
-                                margin: EdgeInsets.all(10.0),
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                      subtitle: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            ' ${IPOModel.stockName}',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 26,
+                            var IPOModel = stocks[index];
+                            return Card(
+                              surfaceTintColor: Color(hexColor('#FFFFFF')),
+                              shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 16.0,
+                              margin: const EdgeInsets.all(10.0),
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    children: [
+                                      ListTile(
+                                        subtitle: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              ' ${IPOModel.stockName}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 26,
+                                              ),
                                             ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.monetization_on, size: 15, color: Colors.green),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                'Lot: ',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.green,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.monetization_on, size: 15, color: Colors.green),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  'Lot: ',
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                '${IPOModel.lot}',
-                                                style: TextStyle(
-                                                  fontSize: 17,
+                                                Text(
+                                                  '${IPOModel.lot}',
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(width: 20), // Add space between the texts
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.currency_rupee, size: 15, color: Colors.green),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                'Price:',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.green,
+                                                SizedBox(width: 20), // Add space between the texts
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.currency_rupee, size: 15, color: Colors.green),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  'Price:',
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                ' ${IPOModel.price}',
-                                                style: TextStyle(fontSize: 17),
-                                              ),
-                                              SizedBox(width: 20), // Add space between the texts
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.calendar_today, size: 15, color: Colors.green),
-                                              SizedBox(width: 6,),
-                                              Text(
-                                                'Opening Date:',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.green,
+                                                Text(
+                                                  ' ${IPOModel.price}',
+                                                  style: TextStyle(fontSize: 17),
                                                 ),
-                                              ), // Add space between the icon and the text
-                                              Text(
-                                                ' ${IPOModel.opendate}',
-                                                style: TextStyle(fontSize: 17),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.calendar_today, size: 15, color: Colors.green),
-                                              SizedBox(width: 6),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Closing Date:',
-                                                    textDirection: TextDirection.ltr,
-                                                    style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 17,
-                                                      color: Colors.green,
+                                                SizedBox(width: 20), // Add space between the texts
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.calendar_today, size: 15, color: Colors.green),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  'Opening Date:',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.green,
+                                                  ),
+                                                ), // Add space between the icon and the text
+                                                Text(
+                                                  ' ${IPOModel.opendate}',
+                                                  style: TextStyle(fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.calendar_today, size: 15, color: Colors.green),
+                                                SizedBox(width: 6),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Closing Date:',
+                                                      textDirection: TextDirection.ltr,
+                                                      style: TextStyle(
+                                                        decoration: TextDecoration.none,
+                                                        fontSize: 15,
+                                                        color: Colors.green,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(width: 6), // Add space between the text and the date
-                                                  Text(
-                                                    ' ${IPOModel.closedate}',
-                                                    textDirection: TextDirection.ltr,
-                                                    style: TextStyle(fontSize: 17,decoration: TextDecoration.none),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(width: 10,),
-                                              Expanded(child:
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: 66,
-                                                    height: 25,
-                                                    color: Colors.blue,
-                                                  ),
-                                                  Positioned(
-                                                    right: 5,
-                                                    top: 5,
-                                                    child: Text(
-                                                      'New',
-                                                      style: TextStyle(color: Colors.white),
+                                                    SizedBox(width: 6), // Add space between the text and the date
+                                                    Text(
+                                                      ' ${IPOModel.closedate}',
+                                                      textDirection: TextDirection.ltr,
+                                                      style: TextStyle(fontSize: 15, decoration: TextDecoration.none),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.lightbulb, size: 15, color: Colors.green),
-                                              Text(
-                                                ' Remark:',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.green,
+                                                  ],
                                                 ),
-                                              ), // Add space between the icon and the text
-                                              Text(
-                                                ' ${IPOModel.remark}',
-                                                style: TextStyle(fontSize: 17),
+                                                SizedBox(width: 10,),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.lightbulb, size: 15, color: Colors.green),
+                                                Text(
+                                                  ' Remark:',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.green,
+                                                  ),
+                                                ), // Add space between the icon and the text
+                                                Text(
+                                                  ' ${IPOModel.remark}',
+                                                  style: TextStyle(fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    right: 10,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 0.5, color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: FutureBuilder<String?>(
+                                        future: getImageUrlFromFirebase(
+                                            IPOModel.id as String), // Use stock ID here
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return CircularProgressIndicator(
+                                                color: Colors.white);
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}');
+                                          } else {
+                                            String imageUrl =
+                                                snapshot.data ?? '';
+                                            // Check if the image URL is already cached
+                                            if (imageUrl.isEmpty &&
+                                                imageCache.containsKey(
+                                                    IPOModel.id)) {
+                                              imageUrl = imageCache[IPOModel.id]!;
+                                            }
+                                            if (imageUrl.isEmpty) {
+                                              // Use a default image URL if no image URL is available
+                                              imageUrl =
+                                              'https://example.com/default_image.jpg';
+                                            }
+                                            return ClipRRect(
+                                              borderRadius: BorderRadius.circular(5),
+                                              child: imageUrl != null
+                                                  ? Image.network(
+                                                imageUrl,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.fill,
+                                              )
+                                                  : Placeholder(
+                                                fallbackHeight: 100,
+                                                fallbackWidth: 100,
                                               ),
-                                            ],
-                                          ),
-
-                                        ],
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
-                                  ],
-                                ),
-                              );
-                            }
+                                  )
+                                ],
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -381,4 +418,15 @@ int hexColor(String color) {
   newColor = newColor.replaceAll('#', '');
   int finalcolor = int.parse(newColor);
   return finalcolor;
+}
+
+Future<String?> getImageUrlFromFirebase(String documentId) async {
+  try {
+    DocumentSnapshot documentSnapshot =
+    await FirebaseFirestore.instance.collection('IPO').doc(documentId).get();
+    return documentSnapshot.get('imageUrl');
+  } catch (e) {
+    print('Error fetching image URL: $e');
+    return null;
+  }
 }

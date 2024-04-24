@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-class ShortTermModel {// Add the id field
+class ShortTermModel {
+  final String id;// Add the id field
   final String status;
   final String stockName;
   final String cmp;
@@ -12,10 +13,11 @@ class ShortTermModel {// Add the id field
 
 
   ShortTermModel(
-      {required this.status ,required this.stockName,required this.cmp,required this.target,required this.sl,required this.remark,required this.date,});
+      {required this.id,required this.status ,required this.stockName,required this.cmp,required this.target,required this.sl,required this.remark,required this.date,});
 
   factory ShortTermModel.fromSnapshot(DocumentSnapshot snapshot) {
     return ShortTermModel(// Assign the document ID to the id field
+      id: snapshot.id,
       status: snapshot['status'],
       stockName: snapshot['stockName'],
       cmp: snapshot['cmp'],

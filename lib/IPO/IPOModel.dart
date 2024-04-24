@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IPOModel {
   // Add the id field
+  final String id;
   final String status;
   final String stockName;
   final String lot;
@@ -12,11 +13,12 @@ class IPOModel {
   final String remark;
 
   IPOModel(
-      {required this.status,required this.stockName ,required this.lot,required this.price,required this.opendate,required this.closedate,required this.remark,});
+      {required this.id,required this.status,required this.stockName ,required this.lot,required this.price,required this.opendate,required this.closedate,required this.remark,});
 
   factory IPOModel.fromSnapshot(DocumentSnapshot snapshot) {
     return IPOModel(
       // Assign the document ID to the id field
+        id: snapshot.id ,
         status: snapshot['status'],
         stockName: snapshot['stockName'],
         lot: snapshot['lot'],
