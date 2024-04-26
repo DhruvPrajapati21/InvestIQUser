@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:user_invest_iq/AuthView/Signup.dart';
 
 class Forgetpassword extends StatefulWidget {
   const Forgetpassword({super.key});
@@ -12,6 +13,7 @@ class Forgetpassword extends StatefulWidget {
 class _ForgetpasswordState extends State<Forgetpassword> {
   bool passwordVisible = false;
   bool con_passwordVisible = true;
+  bool isNavigatingToLogin = false;
   var password = false,
       con_password = true;
   bool isLoading = false;
@@ -30,6 +32,20 @@ class _ForgetpasswordState extends State<Forgetpassword> {
   }
 
   void resetPassword() async {
+    // Show the "Please wait" message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Please wait..."),
+        duration: Duration(seconds: 2), // Adjust the duration as needed
+      ),
+    );
+
+    // Introduce a delay before navigating
+    await Future.delayed(Duration(seconds: 2)); // Delay for 2 seconds
+
+    setState(() {
+      isNavigatingToLogin = true;
+    });
     String email = _emailController.text.trim();
     String newPassword = _newPasswordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
@@ -280,6 +296,21 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                         child: Text("Forget Password"),
                       ),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Don't have an account?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => Signup()),
+                          );
+                        },
+                        child: Text("Join us >>",style: TextStyle(color: Color(hexColor('#5F9EA0')), ),),
+                      ),
+                    ],
                   )
                 ],
               ),

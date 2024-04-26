@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.home_outlined, size: 27),
                   title: const Text('Home'),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
                   },
                 ),
                 const Divider(thickness: 2),
@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
                   title: const Text("Settings"),
                   onTap: () {
                     // Navigator.popUntil(context, ModalRoute.withName('/'));
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Settings1(),

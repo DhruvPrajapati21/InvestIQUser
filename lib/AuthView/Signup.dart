@@ -15,6 +15,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
     final Form_key = GlobalKey<FormState>();
     var password = false, con_password = true;
     bool passwordVisible = false;
+    bool isNavigatingToLogin = false;
     bool con_passwordVisible = true;
     TextEditingController name = TextEditingController();
     TextEditingController email = TextEditingController();
@@ -186,6 +187,19 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
+                          // Show the "Please wait" message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Please wait..."),
+                              duration: Duration(seconds: 2), // Adjust the duration as needed
+                            ),
+                          );
+
+                          // Introduce a delay before navigating
+                          await Future.delayed(Duration(seconds: 2)); // Delay for 2 seconds
+                          setState(() {
+                            isNavigatingToLogin = true;
+                          });
                           if (Form_key.currentState!.validate()) {
                             if (pass.text == cpass.text) {
                               // Check if passwords match
@@ -202,7 +216,11 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                                     "Password": pass.text.trim(),
                                   });
                                 });
-                                Navigator.push(
+                                name.clear();
+                                email.clear();
+                                pass.clear();
+                                cpass.clear();
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Login()));
@@ -246,7 +264,6 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                               );
                             }
                           }
-
                           // Navigator.pushReplacement(context,
                           //     MaterialPageRoute(builder: (context) => Login()));
                         },
@@ -270,7 +287,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
                       Text("Already an account?"),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(context,
+                            Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) => Login()));
                           },
                           child: Text("Join us Now >>",style: TextStyle(color: Color(hexColor('#5F9EA0')), ),),)
