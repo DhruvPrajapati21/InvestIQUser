@@ -32,17 +32,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
   }
 
   void resetPassword() async {
-    // Show the "Please wait" message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Please wait..."),
         duration: Duration(seconds: 2), // Adjust the duration as needed
       ),
     );
-
-    // Introduce a delay before navigating
     await Future.delayed(Duration(seconds: 2)); // Delay for 2 seconds
-
     setState(() {
       isNavigatingToLogin = true;
     });
