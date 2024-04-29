@@ -1094,6 +1094,8 @@ class Helpcenter extends StatelessWidget {
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(child: Image.asset("assets/images/Logo_Tranferent.png",height: 130,width: 130,)),
+            SizedBox(height: 15,),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Text(

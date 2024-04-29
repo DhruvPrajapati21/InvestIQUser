@@ -117,7 +117,6 @@ class _SplashscreenState extends State<Splashscreen> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +172,7 @@ class _SplashscreenState extends State<Splashscreen> {
                   ],
                 ),
                 CircularProgressIndicator(color: Colors.white,),
-                SizedBox(height: 250)
+                SizedBox(height: 300)
               ],
             ),
           ),
