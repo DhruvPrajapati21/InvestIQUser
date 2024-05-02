@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:user_invest_iq/Home.dart';
+import 'package:user_invest_iq/Notification/notification_screen.dart';
 import 'package:user_invest_iq/Settings/Aboutus.dart';
 import 'package:user_invest_iq/Settings/Disclaimer.dart';
 import 'package:user_invest_iq/Settings/Helpcenter.dart';
-import 'package:user_invest_iq/Settings/Managenotifications.dart';
 import 'package:user_invest_iq/Settings/Privacypolicy.dart';
 import 'package:user_invest_iq/Settings/Termsofuse.dart';
 import '../Provider.dart';
@@ -22,8 +22,8 @@ class _Settings1State extends State<Settings1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF5F9EA0),
-        title: Text(
+        backgroundColor: const Color(0xFF5F9EA0),
+        title: const Text(
           "Settings",
           style: TextStyle(
             fontStyle: FontStyle.italic,
@@ -32,14 +32,14 @@ class _Settings1State extends State<Settings1> {
           ),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.home, size: 25, color: Colors.white),
+            icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => const Home()),
               );
             },
           ),
@@ -72,7 +72,7 @@ class _Settings1State extends State<Settings1> {
                             color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                             // Set container color based on theme
                           ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(width: 15),
@@ -94,8 +94,8 @@ class _Settings1State extends State<Settings1> {
               ),
                 ),
               ),
-              SizedBox(height: 10),
-              Row(
+              const SizedBox(height: 10),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(width: 20,),
@@ -106,7 +106,7 @@ class _Settings1State extends State<Settings1> {
                         fontSize: 20,))
                 ],
               ),
-              SizedBox(height:15,),
+              const SizedBox(height:15,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
@@ -128,7 +128,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: 15),
@@ -152,12 +152,12 @@ class _Settings1State extends State<Settings1> {
                   ),
                 ),
               ),
-              SizedBox(height: 1-0,),
+              const SizedBox(height: 1-0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Managenotifications()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications(id: '')));
                   },
                   child: Container(
                     width: double.infinity, // Set width to occupy available space
@@ -174,7 +174,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 15),
@@ -198,8 +198,8 @@ class _Settings1State extends State<Settings1> {
               ),
             ),
               ),
-              SizedBox(height: 10),
-              Row(
+              const SizedBox(height: 10),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(width: 20,),
@@ -210,7 +210,7 @@ class _Settings1State extends State<Settings1> {
                         fontSize: 20,))
                 ],
               ),
-              SizedBox(height:15,),
+              const SizedBox(height:15,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
@@ -232,7 +232,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 15),
@@ -256,7 +256,7 @@ class _Settings1State extends State<Settings1> {
               ),
               ),
               ),
-              SizedBox(height: 1-0,),
+              const SizedBox(height: 1-0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
@@ -280,7 +280,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 15),
@@ -305,12 +305,12 @@ class _Settings1State extends State<Settings1> {
             ),
                 ),
               ),
-              SizedBox(height: 1-0,),
+              const SizedBox(height: 1-0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Disclaimer()));
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=>const Disclaimer()));
                   },
                   child: Container(
                     width: double.infinity, // Set width to occupy available space
@@ -327,7 +327,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 15),
@@ -351,12 +351,12 @@ class _Settings1State extends State<Settings1> {
               ),
             ),
               ),
-              SizedBox(height: 1-0,),
+              const SizedBox(height: 1-0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Helpcenter()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Helpcenter()));
                   },
                 child: Container(
                   width: double.infinity, // Set width to occupy available space
@@ -375,7 +375,7 @@ class _Settings1State extends State<Settings1> {
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
                           // Set container color based on theme
                         ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 15),
