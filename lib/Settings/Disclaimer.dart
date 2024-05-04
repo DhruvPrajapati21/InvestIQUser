@@ -12,8 +12,8 @@ class _DisclaimerState extends State<Disclaimer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF5F9EA0),
-        title: Text(
+        backgroundColor: const Color(0xFF5F9EA0),
+        title: const Text(
           "Disclaimer",
           style: TextStyle(
             fontStyle: FontStyle.italic,
@@ -22,14 +22,14 @@ class _DisclaimerState extends State<Disclaimer> {
           ),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.home, size: 25, color: Colors.white),
+            icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => const Home()),
               );
             },
           ),
@@ -49,9 +49,9 @@ class _DisclaimerState extends State<Disclaimer> {
                   width: 130,
                 ),
               ),
-              SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              const SizedBox(height: 25),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,8 +69,8 @@ class _DisclaimerState extends State<Disclaimer> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -88,8 +88,8 @@ class _DisclaimerState extends State<Disclaimer> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -107,8 +107,8 @@ class _DisclaimerState extends State<Disclaimer> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,8 +126,8 @@ class _DisclaimerState extends State<Disclaimer> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

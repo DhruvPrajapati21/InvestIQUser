@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:user_invest_iq/Home.dart';
 import 'package:url_launcher/url_launcher.dart';
 class Aboutus extends StatefulWidget {
+  const Aboutus({super.key});
+
 
   @override
   State<Aboutus> createState() => _AboutusState();
@@ -13,8 +15,8 @@ class _AboutusState extends State<Aboutus> {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFF5F9EA0),
-            title: Text(
+            backgroundColor: const Color(0xFF5F9EA0),
+            title: const Text(
               "About Us",
               style: TextStyle(
                 fontStyle: FontStyle.italic,
@@ -23,17 +25,17 @@ class _AboutusState extends State<Aboutus> {
               ),
             ),
             centerTitle: true,
-            iconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             // Ensure consistent height of the app bar across orientations
             // You can adjust the height according to your preference
             toolbarHeight: kToolbarHeight,
             actions: [
               IconButton(
-                icon: Icon(Icons.home, size: 25, color: Colors.white),
+                icon: const Icon(Icons.home, size: 25, color: Colors.white),
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => const Home()),
                   );
                 },
               ),
@@ -53,7 +55,7 @@ class _AboutusState extends State<Aboutus> {
                       width: 120,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   Center(
                     child: Text(
                       "INVEST-IQ",
@@ -65,9 +67,9 @@ class _AboutusState extends State<Aboutus> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  const SizedBox(height: 15,),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -87,8 +89,8 @@ class _AboutusState extends State<Aboutus> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -114,8 +116,8 @@ class _AboutusState extends State<Aboutus> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 10),
-                        Text(
+                        const SizedBox(width: 10),
+                        const Text(
                           "Mobile:",
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
@@ -123,10 +125,10 @@ class _AboutusState extends State<Aboutus> {
                             fontWeight: FontWeight.bold,// Set text color to blue
                           ),
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         GestureDetector(
                           onTap: () => _launchPhone("+918849373384"),
-                          child: Text(
+                          child: const Text(
                             "+91 8849373384",
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
@@ -143,8 +145,8 @@ class _AboutusState extends State<Aboutus> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 10),
-                        Text(
+                        const SizedBox(width: 10),
+                        const Text(
                           "Email-ID:",
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
@@ -152,10 +154,10 @@ class _AboutusState extends State<Aboutus> {
                             fontWeight: FontWeight.bold,// Set text color to blue
                           ),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         GestureDetector(
                           onTap: () => _launchEmail("chetanbhai.dhruv@gmail.com"),
-                          child: Text(
+                          child: const Text(
                             "chetanbhai.dhruv@gmail.com",
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
@@ -167,7 +169,7 @@ class _AboutusState extends State<Aboutus> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Center(
                     child: Text(
                       "Description",
@@ -179,8 +181,8 @@ class _AboutusState extends State<Aboutus> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -208,7 +210,7 @@ class _AboutusState extends State<Aboutus> {
   }
 
   int hexColor(String color) {
-    String newColor = '0xff' + color;
+    String newColor = '0xff$color';
     newColor = newColor.replaceAll('#', '');
     int finalcolor = int.parse(newColor);
     return finalcolor;

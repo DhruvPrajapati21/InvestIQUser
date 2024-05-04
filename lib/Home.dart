@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.white),
           leading: IconButton(
-            icon: Icon(Icons.menu, color: Colors.white), // Menu icon
+            icon: const Icon(Icons.menu, color: Colors.white), // Menu icon
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.home_outlined, size: 27),
                   title: const Text('Home'),
                   onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
                   },
                 ),
                 const Divider(thickness: 2),
@@ -139,7 +139,7 @@ class _HomeState extends State<Home> {
                 ),
                 const Divider(thickness: 2),
                 ListTile(
-                  leading: FaIcon(FontAwesomeIcons.chartLine, size: 25),
+                  leading: const FaIcon(FontAwesomeIcons.chartLine, size: 25),
                   title: const Text('IPO'),
                   onTap: () {
                     // Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -231,6 +231,8 @@ class _HomeState extends State<Home> {
 }
 
 class HexagonWithCard extends StatelessWidget {
+  const HexagonWithCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -243,10 +245,10 @@ class HexagonWithCard extends StatelessWidget {
               child: ClipPath(
                 clipper: HexagonClipper(),
                 child: Container(
-                  child: Image.asset("assets/images/zx.png"),
                   color: Color(hexColor('#B0C4DE')),
                   width: 160,
                   height: 160,
+                  child: Image.asset("assets/images/zx.png"),
                 ),
               ),
             ),
@@ -309,7 +311,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -323,7 +325,7 @@ class HexagonWithCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Available IntraDay: ${documents.length}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
@@ -331,7 +333,7 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward,
+                                icon: const Icon(Icons.arrow_forward,
                                     color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
@@ -411,7 +413,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -425,7 +427,7 @@ class HexagonWithCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Available ShortTerm: ${documents.length}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
@@ -433,7 +435,7 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward,
+                                icon: const Icon(Icons.arrow_forward,
                                     color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
@@ -513,7 +515,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -527,7 +529,7 @@ class HexagonWithCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Available LongTerm: ${documents.length}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
@@ -535,7 +537,7 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward,
+                                icon: const Icon(Icons.arrow_forward,
                                     color: Colors.white),
                                 onPressed: () {
                                   Navigator.push(
@@ -614,7 +616,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -628,7 +630,7 @@ class HexagonWithCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Available IPO: ${documents.length}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
@@ -636,7 +638,7 @@ class HexagonWithCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.arrow_forward,
+                                icon: const Icon(Icons.arrow_forward,
                                     color: Colors.white),
                                 onPressed: () {
                                   Navigator.pushReplacement(
@@ -656,7 +658,7 @@ class HexagonWithCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
           ],
@@ -687,7 +689,7 @@ class HexagonClipper extends CustomClipper<Path> {
 }
 
 int hexColor(String color) {
-  String newColor = '0xff' + color;
+  String newColor = '0xff$color';
   newColor = newColor.replaceAll('#', '');
   int finalcolor = int.parse(newColor);
   return finalcolor;

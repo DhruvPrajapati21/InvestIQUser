@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_invest_iq/Home.dart';
-import 'package:user_invest_iq/Home.dart';
-import 'package:user_invest_iq/Notification/notification_screen.dart';
 import 'package:user_invest_iq/Settings/Aboutus.dart';
 import 'package:user_invest_iq/Settings/Disclaimer.dart';
 import 'package:user_invest_iq/Settings/Helpcenter.dart';
@@ -57,7 +55,7 @@ class _Settings1State extends State<Settings1> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity, // Set width to occupy available space
                       child: Consumer<ThemeProvider>(
                         builder: (context, themeProvider, child) => Container(
@@ -66,7 +64,7 @@ class _Settings1State extends State<Settings1> {
                             border: Border.all(
                               width: 1.0,
                               style: BorderStyle.solid,
-                              color: Theme.of(context).textTheme.bodyText1!.color!,
+                              color: Theme.of(context).textTheme.bodyLarge!.color!,
                             ),
                             borderRadius: BorderRadius.circular(10.0),
                             color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
@@ -113,7 +111,7 @@ class _Settings1State extends State<Settings1> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Aboutus()));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(
@@ -122,7 +120,7 @@ class _Settings1State extends State<Settings1> {
                           border: Border.all(
                             width: 1.0,
                             style: BorderStyle.solid,
-                            color: Theme.of(context).textTheme.bodyText1!.color!,
+                            color: Theme.of(context).textTheme.bodyLarge!.color!,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
@@ -157,9 +155,9 @@ class _Settings1State extends State<Settings1> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications(id: '')));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications(id: '')));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(
@@ -168,7 +166,7 @@ class _Settings1State extends State<Settings1> {
                           border: Border.all(
                             width: 1.0,
                             style: BorderStyle.solid,
-                            color: Theme.of(context).textTheme.bodyText1!.color!,
+                            color: Theme.of(context).textTheme.bodyLarge!.color!,
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                           color: themeProvider.currentTheme == ThemeData.dark() ? Colors.black : Colors.white,
@@ -217,7 +215,7 @@ class _Settings1State extends State<Settings1> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Termsofuse()));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(
@@ -263,9 +261,9 @@ class _Settings1State extends State<Settings1> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Privacypolicy()));
                   },
-                child: Container(
+                child: SizedBox(
                   width: double.infinity, // Set width to occupy available space
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(
@@ -312,7 +310,7 @@ class _Settings1State extends State<Settings1> {
                   onTap: () {
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Disclaimer()));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(
@@ -358,9 +356,9 @@ class _Settings1State extends State<Settings1> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const Helpcenter()));
                   },
-                child: Container(
+                child: SizedBox(
                   width: double.infinity, // Set width to occupy available space
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity, // Set width to occupy available space
                     child: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) => Container(

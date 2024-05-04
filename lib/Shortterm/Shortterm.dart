@@ -45,8 +45,8 @@ class _ShorttermState extends State<Shortterm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF5F9EA0),
-        title: Text(
+        backgroundColor: const Color(0xFF5F9EA0),
+        title: const Text(
           "ShortTerm",
           style: TextStyle(
             fontStyle: FontStyle.italic,
@@ -55,21 +55,21 @@ class _ShorttermState extends State<Shortterm> {
           ),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.home, size: 25, color: Colors.white),
+            icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => const Home()),
               );
             },
           ),
         ],
       ),
     body: Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
     image: DecorationImage(
     image: NetworkImage('https://example.com/background_image.jpg'), // Replace with your image URL
     fit: BoxFit.fill,
@@ -108,18 +108,18 @@ class _ShorttermState extends State<Shortterm> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Filter",
                             style: TextStyle(
                               fontSize: 17,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 12,
                           ),
                           SizedBox(
@@ -143,8 +143,8 @@ class _ShorttermState extends State<Shortterm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
-                  Row(
+                  const SizedBox(height: 15),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(width: 5),
@@ -166,15 +166,14 @@ class _ShorttermState extends State<Shortterm> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       }
                       if (snapshot.data!.docs.isEmpty) {
-                        return Center(child: Text('No data available'));
+                        return const Center(child: Text('No data available'));
                       }
-                      final data = snapshot.data!;
 
                       List<ShortTermModel> stocks = snapshot.data!.docs
                           .map((doc) => ShortTermModel.fromSnapshot(doc))
@@ -193,14 +192,14 @@ class _ShorttermState extends State<Shortterm> {
                             .toList();
                       }
                       if (stocks.isEmpty) {
-                        return Center(child: Text('No Data Found!'));
+                        return const Center(child: Text('No Data Found!'));
                       }
                       return Column(
                         children: [
                           Text('Available ShortTerm: ${stocks.length}'),
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: stocks.length,
                             itemBuilder: (BuildContext context, int index) {
                               var shortTermModel = stocks[index];
@@ -228,7 +227,7 @@ class _ShorttermState extends State<Shortterm> {
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 elevation: 16.0,
-                                margin: EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
                                     Row(
@@ -241,18 +240,18 @@ class _ShorttermState extends State<Shortterm> {
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                             BorderRadius.circular(60.0),
-                                            side: BorderSide(
+                                            side: const BorderSide(
                                                 color: Colors.black,
                                                 width: 1.0),
                                           ),
-                                          margin: EdgeInsets.all(10.0),
+                                          margin: const EdgeInsets.all(10.0),
                                           child: FutureBuilder<String?>(
                                             future: getImageUrlFromFirebase(
-                                                shortTermModel.id as String), // Use stock ID here
+                                                shortTermModel.id), // Use stock ID here
                                             builder: (context, snapshot) {
                                               if (snapshot.connectionState ==
                                                   ConnectionState.waiting) {
-                                                return CircularProgressIndicator(
+                                                return const CircularProgressIndicator(
                                                     color: Colors.white);
                                               } else if (snapshot.hasError) {
                                                 return Text(
@@ -295,7 +294,7 @@ class _ShorttermState extends State<Shortterm> {
                                         children: [
                                           Text(
                                             ' ${shortTermModel.stockName}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               fontSize: 26,
@@ -305,26 +304,26 @@ class _ShorttermState extends State<Shortterm> {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Status: ',
                                                 style: TextStyle(
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                '${shortTermModel.status}',
+                                                shortTermModel.status,
                                                 style: TextStyle(
                                                     fontSize: 17,
                                                     color: statusColor),
                                               ),
-                                              Spacer(
+                                              const Spacer(
                                                 flex: 15,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                               Text(
                                                 'Target: ₹${shortTermModel.target}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 17),
                                               ),
                                             ],
@@ -335,19 +334,19 @@ class _ShorttermState extends State<Shortterm> {
                                             children: [
                                               Text(
                                                 'CMP: ₹${shortTermModel.cmp}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 17),
                                               ),
-                                              Spacer(
+                                              const Spacer(
                                                 flex: 15,
                                               ),
-                                              Text('SL:',
+                                              const Text('SL:',
                                                   style: TextStyle(
                                                       fontSize: 17)),
                                               Icon(Icons.currency_rupee,
                                                   size: 17, color: slColor),
                                               // SL icon
-                                              Text('${shortTermModel.sl}',
+                                              Text(shortTermModel.sl,
                                                   style: TextStyle(
                                                       fontSize: 17,
                                                       color: slColor)),
@@ -359,20 +358,20 @@ class _ShorttermState extends State<Shortterm> {
                                             children: [
                                               Text(
                                                 'Date: ${shortTermModel.date}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 17),
                                               ),
-                                              Spacer(
+                                              const Spacer(
                                                 flex: 15,
                                               ),
-                                              Text(
+                                              const Text(
                                                 'Remarks: ',
                                                 style: TextStyle(fontSize: 17),
                                               ),
                                               Expanded(
                                                 flex: 30, // Adjust flex value as needed
                                                 child: Text(
-                                                  '${shortTermModel.remark}',
+                                                  shortTermModel.remark,
                                                   style: TextStyle(fontSize: 17, color: remarkColor),
                                                   softWrap: true, // Enable text wrapping
                                                 ),
@@ -403,7 +402,7 @@ class _ShorttermState extends State<Shortterm> {
 }
 
 int hexColor(String color) {
-  String newColor = '0xff' + color;
+  String newColor = '0xff$color';
   newColor = newColor.replaceAll('#', '');
   int finalcolor = int.parse(newColor);
   return finalcolor;

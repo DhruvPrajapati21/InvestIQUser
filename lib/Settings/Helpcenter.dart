@@ -1069,21 +1069,21 @@ class Helpcenter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF5F9EA0),
+        backgroundColor: const Color(0xFF5F9EA0),
         title: const Text(
           'Need Help',
           style: TextStyle(
               fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,color: Colors.white),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.home, size: 25, color: Colors.white),
+            icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => const Home()),
               );
             },
           ),
@@ -1095,7 +1095,7 @@ class Helpcenter extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(child: Image.asset("assets/images/Logo_Tranferent.png",height: 130,width: 130,)),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Text(

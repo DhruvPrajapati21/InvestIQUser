@@ -45,8 +45,8 @@ class _IntradayState extends State<Intraday> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF5F9EA0),
-        title: Text(
+        backgroundColor: const Color(0xFF5F9EA0),
+        title: const Text(
           "IntraDay",
           style: TextStyle(
             fontStyle: FontStyle.italic,
@@ -55,21 +55,21 @@ class _IntradayState extends State<Intraday> {
           ),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.home, size: 25, color: Colors.white),
+            icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => const Home()),
               );
             },
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage('https://example.com/background_image.jpg'), // Replace with your image URL
             fit: BoxFit.fill,
@@ -109,18 +109,18 @@ class _IntradayState extends State<Intraday> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "Filter",
                               style: TextStyle(
                                 fontSize: 17,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 12,
                             ),
                             SizedBox(
@@ -144,8 +144,8 @@ class _IntradayState extends State<Intraday> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Row(
+                    const SizedBox(height: 15),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(width: 5),
@@ -167,15 +167,14 @@ class _IntradayState extends State<Intraday> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         }
                         if (snapshot.data!.docs.isEmpty) {
-                          return Center(child: Text('No data available'));
+                          return const Center(child: Text('No data available'));
                         }
-                        final data = snapshot.data!;
 
                         List<IntradayModel> stocks = snapshot.data!.docs
                             .map((doc) => IntradayModel.fromSnapshot(doc))
@@ -195,14 +194,14 @@ class _IntradayState extends State<Intraday> {
                               .toList();
                         }
                         if (stocks.isEmpty) {
-                          return Center(child: Text('No Data Found!'));
+                          return const Center(child: Text('No Data Found!'));
                         }
                         return Column(
                           children: [
                             Text('Available IntraDay: ${stocks.length}'),
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: stocks.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var intradayModel = stocks[index];
@@ -227,7 +226,7 @@ class _IntradayState extends State<Intraday> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   elevation: 16.0,
-                                  margin: EdgeInsets.all(10.0),
+                                  margin: const EdgeInsets.all(10.0),
                                   child: Column(
                                     children: [
                                       Row(
@@ -240,18 +239,18 @@ class _IntradayState extends State<Intraday> {
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                               BorderRadius.circular(60.0),
-                                              side: BorderSide(
+                                              side: const BorderSide(
                                                   color: Colors.black,
                                                   width: 1.0),
                                             ),
-                                            margin: EdgeInsets.all(10.0),
+                                            margin: const EdgeInsets.all(10.0),
                                             child: FutureBuilder<String?>(
                                               future: getImageUrlFromFirebase(
-                                                  intradayModel.id as String), // Use stock ID here
+                                                  intradayModel.id), // Use stock ID here
                                               builder: (context, snapshot) {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
-                                                  return CircularProgressIndicator(
+                                                  return const CircularProgressIndicator(
                                                       color: Colors.white);
                                                 } else if (snapshot.hasError) {
                                                   return Text(
@@ -294,7 +293,7 @@ class _IntradayState extends State<Intraday> {
                                           children: [
                                             Text(
                                               ' ${intradayModel.stockName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontStyle: FontStyle.italic,
                                                 fontSize: 26,
@@ -305,26 +304,26 @@ class _IntradayState extends State<Intraday> {
                                               MainAxisAlignment
                                                   .spaceEvenly,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Status: ',
                                                   style: TextStyle(
                                                       fontSize: 17),
                                                 ),
                                                 Text(
-                                                  '${intradayModel.status}',
+                                                  intradayModel.status,
                                                   style: TextStyle(
                                                       fontSize: 17,
                                                       color: statusColor),
                                                 ),
-                                                Spacer(
+                                                const Spacer(
                                                   flex: 15,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 Text(
                                                   'Target: ₹${intradayModel.target}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 17),
                                                 ),
                                               ],
@@ -336,19 +335,19 @@ class _IntradayState extends State<Intraday> {
                                               children: [
                                                 Text(
                                                   'CMP: ₹${intradayModel.cmp}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 17),
                                                 ),
-                                                Spacer(
+                                                const Spacer(
                                                   flex: 15,
                                                 ),
-                                                Text('SL:',
+                                                const Text('SL:',
                                                     style: TextStyle(
                                                         fontSize: 17)),
                                                 Icon(Icons.currency_rupee,
                                                     size: 17,
                                                     color: slColor),
-                                                Text('${intradayModel.sl}',
+                                                Text(intradayModel.sl,
                                                     style: TextStyle(
                                                         fontSize: 17,
                                                         color: slColor)),
@@ -364,12 +363,12 @@ class _IntradayState extends State<Intraday> {
                                                 Text(
                                                   'Date: ${intradayModel.date}',
                                                   style:
-                                                  TextStyle(fontSize: 17),
+                                                  const TextStyle(fontSize: 17),
                                                 ),
-                                                Spacer(
+                                                const Spacer(
                                                   flex: 15,
                                                 ),
-                                                Text(
+                                                const Text(
                                                   'Remarks: ',
                                                   style:
                                                   TextStyle(fontSize: 17),
@@ -378,7 +377,7 @@ class _IntradayState extends State<Intraday> {
                                                   flex: 30,
                                                   // Adjust flex value as needed
                                                   child: Text(
-                                                    '${intradayModel.remark}',
+                                                    intradayModel.remark,
                                                     style: TextStyle(
                                                         fontSize: 17,
                                                         color: remarkColor),
@@ -412,7 +411,7 @@ class _IntradayState extends State<Intraday> {
 }
 
 int hexColor(String color) {
-  String newColor = '0xff' + color;
+  String newColor = '0xff$color';
   newColor = newColor.replaceAll('#', '');
   int finalcolor = int.parse(newColor);
   return finalcolor;
