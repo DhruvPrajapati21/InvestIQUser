@@ -21,6 +21,7 @@ class _LoginState extends State<Login> {
 
   var _passwordVisible = true;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +143,7 @@ class _LoginState extends State<Login> {
                               );
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => Home()),
+                                MaterialPageRoute(builder: (context) => Enteredscreen()),
                               );
                             } else {
                               // Password doesn't match

@@ -6,6 +6,7 @@ import 'package:user_invest_iq/Settings/Disclaimer.dart';
 import 'package:user_invest_iq/Settings/Helpcenter.dart';
 import 'package:user_invest_iq/Settings/Privacypolicy.dart';
 import 'package:user_invest_iq/Settings/Termsofuse.dart';
+import '../Notification/Notification.dart';
 import '../Provider.dart';
 
 class Settings1 extends StatefulWidget {
@@ -35,6 +36,7 @@ class _Settings1State extends State<Settings1> {
           IconButton(
             icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
@@ -155,7 +157,7 @@ class _Settings1State extends State<Settings1> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications(id: '')));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications(id: '')));
                   },
                   child: SizedBox(
                     width: double.infinity, // Set width to occupy available space

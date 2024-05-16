@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:user_invest_iq/Home.dart';
 
-import 'Splashscreen.dart';
-
 class Enteredscreen extends StatefulWidget {
-  const Enteredscreen({super.key});
+  const Enteredscreen({Key? key}) : super(key: key);
 
   @override
   State<Enteredscreen> createState() => _EnteredscreenState();

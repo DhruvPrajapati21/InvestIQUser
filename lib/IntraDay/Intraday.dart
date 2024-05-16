@@ -60,6 +60,7 @@ class _IntradayState extends State<Intraday> {
           IconButton(
             icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
@@ -68,7 +69,8 @@ class _IntradayState extends State<Intraday> {
           ),
         ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
+      child:Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage('https://example.com/background_image.jpg'), // Replace with your image URL
@@ -356,7 +358,7 @@ class _IntradayState extends State<Intraday> {
                                             Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment
-                                                  .spaceEvenly,
+                                                  .start,
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                               children: [
@@ -366,7 +368,7 @@ class _IntradayState extends State<Intraday> {
                                                   const TextStyle(fontSize: 17),
                                                 ),
                                                 const Spacer(
-                                                  flex: 15,
+                                                  flex: 6,
                                                 ),
                                                 const Text(
                                                   'Remarks: ',
@@ -405,6 +407,7 @@ class _IntradayState extends State<Intraday> {
             );
           },
         ),
+      ),
       ),
     );
   }

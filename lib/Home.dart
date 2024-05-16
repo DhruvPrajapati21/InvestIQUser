@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:user_invest_iq/AuthView/Login.dart';
 import 'package:user_invest_iq/IntraDay/Intraday.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,15 +22,69 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // Bottom navigation index
+  int _selectedIndex = 0;
+  bool _isExiting = false;
+  final bool _debugLocked = true;
+
+  final List<Widget> _pages = [
+    HexagonWithCard(),
+    Intraday(),
+    Shortterm(),
+    Longterm(),
+    IPO(),
+  ];
+
+  // Function to handle bottom navigation item tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Navigate to the corresponding page based on the selected index
+    switch (index) {
+      case 0:
+      // Navigate to Home
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Home()));
+        break;
+      case 1:
+      // Navigate to Intraday
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const Intraday()));
+        break;
+      case 2:
+      // Navigate to Shortterm
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const Shortterm()));
+        break;
+      case 3:
+      // Navigate to Longterm
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const Longterm()));
+        break;
+      case 4:
+      // Navigate to IPO
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const IPO()));
+        break;
+      default:
+        break;
+    }
+  }
+
+
   Future<bool> _onBackPressed() async {
     if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
-      // If drawer is open, close it
       Navigator.of(context).pop();
       return false; // Do not exit the app
     } else {
-      // Show exit confirmation dialog
-      bool? exitConfirmed = await ExitConfirmationDialog.showExitDialog(context);
-      return exitConfirmed ?? false;
+      if (!_isExiting) {
+        _isExiting = true;
+        bool? exitConfirmed = await ExitConfirmationDialog.showExitDialog(context);
+        _isExiting = false; // Reset flag after dialog is closed
+        if (exitConfirmed ?? false) {
+          // If user confirmed exit, pop all existing routes and exit the app
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
+        return exitConfirmed ?? false;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -39,25 +95,7 @@ class _HomeState extends State<Home> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF5F9EA0),
-          title: const Text(
-            "Home",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          iconTheme: const IconThemeData(color: Colors.white),
-          leading: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white), // Menu icon
-            onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
-            },
-          ),
-        ),
+        appBar: _selectedIndex == 0 ? _buildAppBar() : null,
         drawer: SizedBox(
           width: 220,
           child: Drawer(
@@ -92,6 +130,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.home_outlined, size: 27),
                   title: const Text('Home'),
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
                   },
                 ),
@@ -100,7 +139,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.access_time, size: 25),
                   title: const Text('Intraday'),
                   onTap: () {
-                    // Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -114,7 +153,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(FontAwesomeIcons.hourglass, size: 25),
                   title: const Text('Short Term'),
                   onTap: () {
-                    // Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -128,7 +167,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.timeline_sharp, size: 25),
                   title: const Text('Long Term'),
                   onTap: () {
-                    // Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -142,7 +181,7 @@ class _HomeState extends State<Home> {
                   leading: const FaIcon(FontAwesomeIcons.chartLine, size: 25),
                   title: const Text('IPO'),
                   onTap: () {
-                    // Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -156,12 +195,13 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.settings, size: 25),
                   title: const Text("Settings"),
                   onTap: () {
-                    // Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Settings1(),
                       ),
+
                     );
                   },
                 ),
@@ -180,6 +220,7 @@ class _HomeState extends State<Home> {
                   leading: const Icon(Icons.exit_to_app, size: 25),
                   title: const Text("Logout"),
                   onTap: () {
+                    Navigator.pop(context);
                     showLogoutConfirmationDialog(context);
                   },
                 ),
@@ -188,7 +229,62 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        body: HexagonWithCard(),
+        body: _pages[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor:  Color(hexColor('#FFFAFA')),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xFF5F9EA0),
+              icon: Icon(Icons.home),
+              label: 'Home',
+              activeIcon: Icon(Icons.home)),
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xFF5F9EA0),
+              icon: Icon(Icons.access_time),
+              label: 'Intraday',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xFF5F9EA0),
+              icon: Icon(FontAwesomeIcons.hourglass),
+              label: 'Short Term',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xFF5F9EA0),
+              icon: Icon(Icons.timeline_sharp),
+              label: 'Long Term',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xFF5F9EA0),
+              icon: FaIcon(FontAwesomeIcons.chartLine),
+              label: 'IPO',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          onTap: _onItemTapped,
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget?  _buildAppBar() {
+    return AppBar(
+      backgroundColor: const Color(0xFF5F9EA0),
+      title: const Text(
+        "Home",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
+          color: Colors.white,
+        ),
+      ),
+      centerTitle: true,
+      iconTheme: const IconThemeData(color: Colors.white),
+      leading: IconButton(
+        icon: const Icon(Icons.menu, color: Colors.white),
+        onPressed: () {
+          _scaffoldKey.currentState?.openDrawer();
+        },
       ),
     );
   }
@@ -228,10 +324,15 @@ class _HomeState extends State<Home> {
       },
     );
   }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('_debugLocked', _debugLocked));
+  }
 }
 
 class HexagonWithCard extends StatelessWidget {
-  const HexagonWithCard({super.key});
+  const HexagonWithCard({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -278,8 +379,8 @@ class HexagonWithCard extends StatelessWidget {
                               width: 100,
                               height: 100,
                               color: Color(hexColor('#FFFAFA')),
-                              child: Image.asset(
-                                "assets/images/s3.png",
+                              child: SvgPicture.asset(
+                                "assets/images/s9.svg",
                                 fit: BoxFit.scaleDown,
                                 height: 10,
                                 width: 10,
@@ -311,7 +412,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return SizedBox();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -380,8 +481,8 @@ class HexagonWithCard extends StatelessWidget {
                               width: 100,
                               height: 100,
                               color: Color(hexColor('#FFFAFA')),
-                              child: Image.asset(
-                                "assets/images/s1.png",
+                              child: SvgPicture.asset(
+                                "assets/images/t2.svg",
                                 fit: BoxFit.scaleDown,
                                 height: 10,
                                 width: 10,
@@ -413,7 +514,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return SizedBox();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -482,8 +583,8 @@ class HexagonWithCard extends StatelessWidget {
                               width: 100,
                               height: 100,
                               color: Color(hexColor('#FFFAFA')),
-                              child: Image.asset(
-                                "assets/images/h1.png",
+                              child: SvgPicture.asset(
+                                "assets/images/z7.svg",
                                 fit: BoxFit.scaleDown,
                                 height: 10,
                                 width: 10,
@@ -515,7 +616,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return SizedBox();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -584,8 +685,8 @@ class HexagonWithCard extends StatelessWidget {
                               width: 100,
                               height: 100,
                               color: Color(hexColor('#FFFAFA')),
-                              child: Image.asset(
-                                "assets/images/a4.png",
+                              child: SvgPicture.asset(
+                                "assets/images/z4.svg",
                                 fit: BoxFit.scaleDown,
                                 height: 10,
                                 width: 10,
@@ -616,7 +717,7 @@ class HexagonWithCard extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return SizedBox();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -641,10 +742,11 @@ class HexagonWithCard extends StatelessWidget {
                                 icon: const Icon(Icons.arrow_forward,
                                     color: Colors.white),
                                 onPressed: () {
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const IPO(),
+                                      builder: (context) =>
+                                      const IPO(),
                                     ),
                                   );
                                 },
@@ -658,9 +760,7 @@ class HexagonWithCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 18,
-            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -672,27 +772,27 @@ class HexagonClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.moveTo(size.width * 0.25, 0);
-    path.lineTo(size.width * 0.75, 0);
-    path.lineTo(size.width, size.height * 0.25);
-    path.lineTo(size.width, size.height * 0.75);
-    path.lineTo(size.width * 0.75, size.height);
-    path.lineTo(size.width * 0.25, size.height);
-    path.lineTo(0, size.height * 0.75);
-    path.lineTo(0, size.height * 0.25);
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(size.width, size.height / 4);
+    path.lineTo(size.width, size.height * 3 / 4);
+    path.lineTo(size.width / 2, size.height);
+    path.lineTo(0, size.height * 3 / 4);
+    path.lineTo(0, size.height / 4);
     path.close();
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
 }
 
-int hexColor(String color) {
-  String newColor = '0xff$color';
-  newColor = newColor.replaceAll('#', '');
-  int finalcolor = int.parse(newColor);
-  return finalcolor;
+int hexColor(String colorCode) {
+  String colorNew = '0xff' + colorCode;
+  colorNew = colorNew.replaceAll('#', '');
+  int colorInt = int.parse(colorNew);
+  return colorInt;
 }
 
 class ExitConfirmationDialog {

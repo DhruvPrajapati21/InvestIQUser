@@ -60,6 +60,7 @@ class _LongtermState extends State<Longterm> {
           IconButton(
             icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
@@ -346,7 +347,8 @@ class _LongtermState extends State<Longterm> {
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Date: ${LongTermModel.date}',
@@ -354,14 +356,14 @@ class _LongtermState extends State<Longterm> {
                                                     fontSize: 17),
                                               ),
                                               const Spacer(
-                                                flex: 15,
+                                                flex: 6,
                                               ),
                                               const Text(
                                                 'Remarks: ',
                                                 style: TextStyle(fontSize: 17),
                                               ),
                                               Expanded(
-                                                flex: 30, // Adjust flex value as needed
+                                                flex: 50, // Adjust flex value as needed
                                                 child: Text(
                                                   LongTermModel.remark,
                                                   style: TextStyle(fontSize: 17, color: remarkColor),

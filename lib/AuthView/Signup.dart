@@ -7,6 +7,7 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
   class Signup extends StatefulWidget {
     const Signup({Key? key}) : super(key: key);
 
+
     @override
     State<Signup> createState() => _SignupState();
   }
@@ -23,6 +24,22 @@ import 'package:user_invest_iq/AuthView/Enteredscreen.dart';
     TextEditingController cpass = TextEditingController();
     bool isLoading = false;
     String uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
+    // @override
+    // void initState() {
+    //   super.initState();
+    //   checkUserLoggedIn(); // Check if user is already logged in
+    // }
+    //
+    // void checkUserLoggedIn() async {
+    //   User? user = FirebaseAuth.instance.currentUser;
+    //   if (user != null) {
+    //     // If user is already logged in, redirect to Enteredscreen
+    //     Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => Login()),
+    //     );
+    //   }
+    // }
     @override
     Widget build(BuildContext context) {
       return Scaffold(

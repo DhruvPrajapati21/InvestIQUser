@@ -61,6 +61,7 @@ class _IPOState extends State<IPO> {
           IconButton(
             icon: Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => Home()),

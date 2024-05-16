@@ -27,6 +27,7 @@ class _PrivacypolicyState extends State<Privacypolicy> {
             IconButton(
               icon: const Icon(Icons.home, size: 25, color: Colors.white),
               onPressed: () {
+                Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Home()),

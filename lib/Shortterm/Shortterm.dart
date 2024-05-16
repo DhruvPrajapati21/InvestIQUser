@@ -60,6 +60,7 @@ class _ShorttermState extends State<Shortterm> {
           IconButton(
             icon: const Icon(Icons.home, size: 25, color: Colors.white),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
@@ -354,7 +355,8 @@ class _ShorttermState extends State<Shortterm> {
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Date: ${shortTermModel.date}',
@@ -362,14 +364,14 @@ class _ShorttermState extends State<Shortterm> {
                                                     fontSize: 17),
                                               ),
                                               const Spacer(
-                                                flex: 15,
+                                                flex: 6,
                                               ),
                                               const Text(
                                                 'Remarks: ',
                                                 style: TextStyle(fontSize: 17),
                                               ),
                                               Expanded(
-                                                flex: 30, // Adjust flex value as needed
+                                                flex: 30,// Adjust flex value as needed
                                                 child: Text(
                                                   shortTermModel.remark,
                                                   style: TextStyle(fontSize: 17, color: remarkColor),
