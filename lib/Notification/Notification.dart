@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Home.dart';
 
-
 class Notifications extends StatefulWidget {
   const Notifications({Key? key, required String id}) : super(key: key);
 
@@ -83,7 +82,8 @@ class _NotificationsState extends State<Notifications> {
     final today = DateTime(now.year, now.month, now.day);
 
     final parsedTimestamp = DateTime.parse(timestamp);
-    final startOfDay = DateTime(parsedTimestamp.year, parsedTimestamp.month, parsedTimestamp.day);
+    final startOfDay = DateTime(
+        parsedTimestamp.year, parsedTimestamp.month, parsedTimestamp.day);
     final diff = startOfDay.difference(today);
 
     if (diff.inDays == 0) {
@@ -97,13 +97,18 @@ class _NotificationsState extends State<Notifications> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF5F9EA0),
-        title: const Text('Notifications',style: TextStyle(fontWeight: FontWeight.bold,fontStyle: FontStyle.italic,color: Colors.white),),
+        title: const Text(
+          'Notifications',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              color: Colors.white),
+        ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
@@ -119,54 +124,68 @@ class _NotificationsState extends State<Notifications> {
           ),
         ],
       ),
-
       body: notifications.isEmpty
           ? Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 200),
-            child: Center(child: Image.asset("assets/images/u8.png",height: 200,width: 200,)),
-          )
-        ],
-      )
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 200),
+                  child: Center(
+                      child: Image.asset(
+                    "assets/images/u8.png",
+                    height: 200,
+                    width: 200,
+                  )),
+                )
+              ],
+            )
           : Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                final notification = notifications[index];
-                return Dismissible(
-
-                  key: Key(notification['timestamp']),
-                  onDismissed: (direction) {
-                    setState(() {
-                      notifications.removeAt(index);
-                      _deleteNotification(index);
-                    });
-                  },
-                  background: Container(color: Colors.red),
-                  child: Card(
-                    child: ListTile(
-                      leading: const CircleAvatar(
-                        backgroundColor: Colors.deepOrangeAccent,
-                        child: Icon(Icons.notifications),
-                      ),
-                      title: Text(notification['title']),
-                      subtitle: Text(notification['body']),
-                      trailing: Text(
-                        _formatTimestamp(notification['timestamp']),
-                      ),
-                    ),
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      final notification = notifications[index];
+                      return Dismissible(
+                        key: Key(notification['timestamp']),
+                        onDismissed: (direction) {
+                          setState(() {
+                            notifications.removeAt(index);
+                            _deleteNotification(index);
+                          });
+                        },
+                        background: Container(color: Colors.red),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Card(
+                            color: Colors.white,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:Color(hexColor('#5F9EA0')),
+                                child: Image.asset(
+                                    "assets/images/Logo_Tranferent.png"),
+                              ),
+                              title: Text(notification['title']),
+                              subtitle: Text(notification['body']),
+                              trailing: Text(
+                                _formatTimestamp(notification['timestamp']),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
+}
+int hexColor(String colorCode) {
+  String colorNew = '0xff' + colorCode;
+  colorNew = colorNew.replaceAll('#', '');
+  int colorInt = int.parse(colorNew);
+  return colorInt;
 }
