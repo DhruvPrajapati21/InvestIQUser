@@ -319,26 +319,37 @@ class _IPOState extends State<IPO> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(width: 10,),
                                               ],
                                             ),
+                                            SizedBox(height: 4,),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.lightbulb, size: 15, color: Colors.green),
-                                                Text(
-                                                  ' Remark:',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.green,
-                                                  ),
-                                                ), // Add space between the icon and the text
-                                                Text(
-                                                  ' ${IPOModel.remark}',
-                                                  style: TextStyle(fontSize: 14),
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      ' Remark: ',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      constraints: BoxConstraints(maxWidth: 130), // Adjust the maxHeight as needed
+                                                      child: SingleChildScrollView(
+                                                        child: Text(
+                                                          IPOModel.remark,
+                                                          style: TextStyle(fontSize: 14),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
+
                                           ],
                                         ),
                                       ),
