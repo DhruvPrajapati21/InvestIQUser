@@ -370,12 +370,13 @@ class _ShorttermState extends State<Shortterm> {
                                                 'Remarks: ',
                                                 style: TextStyle(fontSize: 17),
                                               ),
-                                              Expanded(
-                                                flex: 30,// Adjust flex value as needed
-                                                child: Text(
-                                                  shortTermModel.remark,
-                                                  style: TextStyle(fontSize: 17, color: remarkColor),
-                                                  softWrap: true, // Enable text wrapping
+                                              Container(
+                                                constraints: BoxConstraints(maxWidth: 65), // Adjust the maxHeight as needed
+                                                child: SingleChildScrollView(
+                                                  child: Text(
+                                                    shortTermModel.remark,
+                                                    style: TextStyle(fontSize: 17,color: remarkColor),
+                                                  ),
                                                 ),
                                               ),
                                             ],

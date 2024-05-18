@@ -362,12 +362,13 @@ class _LongtermState extends State<Longterm> {
                                                 'Remarks: ',
                                                 style: TextStyle(fontSize: 17),
                                               ),
-                                              Expanded(
-                                                flex: 50, // Adjust flex value as needed
-                                                child: Text(
-                                                  LongTermModel.remark,
-                                                  style: TextStyle(fontSize: 17, color: remarkColor),
-                                                  softWrap: true, // Enable text wrapping
+                                              Container(
+                                                constraints: BoxConstraints(maxWidth: 65), // Adjust the maxHeight as needed
+                                                child: SingleChildScrollView(
+                                                  child: Text(
+                                                    LongTermModel.remark,
+                                                    style: TextStyle(fontSize: 17,color: remarkColor),
+                                                  ),
                                                 ),
                                               ),
                                             ],
